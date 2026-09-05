@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/quick-main.css" />
+
+    <title>빠르게 정산하기 | 스플릿</title>
+  </head>
+
+  <body>
+    <main class="app-screen quick-main-screen">
+      <!-- =========================
+           상단 헤더
+      ========================== -->
+
+      <header class="quick-main-header">
+        <!-- 뒤로가기 -->
+        <button type="button" class="back-button" onclick="history.back()">
+          <img src="image/뒤로가기.svg" alt="뒤로가기" />
+        </button>
+
+        <!-- 방 이름 -->
+        <h1 id="roomTitle">정산방</h1>
+
+        <!-- 방 수정 -->
+        <button type="button" class="edit-room-button" id="editRoomButton">
+          수정하기
+        </button>
+      </header>
+
+      <!-- =========================
+           항목 입력 카드
+      ========================== -->
+
+      <section class="item-input-card">
+        <!-- 항목명 -->
+        <div class="input-field">
+          <label for="itemName"> 항목명 </label>
+
+          <input
+            type="text"
+            id="itemName"
+            placeholder="항목명을 입력하세요"
+            autocomplete="off"
+          />
+        </div>
+
+        <!-- 금액 -->
+        <div class="input-field">
+          <label for="itemAmount"> 금액 </label>
+
+          <div class="amount-row">
+            <!-- 통화 선택 -->
+            <select id="currencySelect" class="currency-select">
+              <option value="KRW">₩</option>
+              <option value="USD">$</option>
+              <option value="JPY">¥</option>
+              <option value="EUR">€</option>
+              <option value="GBP">£</option>
+            </select>
+
+            <!-- 금액 입력 -->
+            <div class="amount-input-box">
+              <span class="currency-symbol" id="currencySymbol"> ₩ </span>
+
+              <input
+                type="number"
+                id="itemAmount"
+                placeholder="금액을 입력하세요"
+                min="0"
+              />
+            </div>
+          </div>
+
+          <!-- 환율 -->
+          <p class="exchange-rate" id="exchangeRate"></p>
+        </div>
+
+        <!-- =========================
+             참여 인원
+        ========================== -->
+
+        <div class="participant-select-section">
+          <h2>참여 인원</h2>
+
+          <div class="participant-buttons" id="participantButtons"></div>
+        </div>
+
+        <!-- =========================
+             항목 추가 / 수정 완료
+        ========================== -->
+
+        <button type="button" class="add-item-button" id="addItemButton">
+          <span>+</span>
+          항목 추가하기
+        </button>
+      </section>
+
+      <!-- =========================
+           정산 항목
+      ========================== -->
+
+      <section class="settlement-items-section">
+        <h2>정산 항목</h2>
+
+        <!--
+          JS에서 항목 생성
+
+          평소:
+          떡볶이      ₩28,000 ●●●●
+
+          왼쪽으로 밀면:
+          [수정][삭제]
+
+          수정 클릭:
+          위 입력창에 기존 정보 표시
+          → 수정 완료
+        -->
+
+        <div id="settlementItems"></div>
+      </section>
+
+      <!-- =========================
+           하단 정산 버튼
+      ========================== -->
+
+      <button type="button" class="settle-button" id="settleButton">
+        정산하기
+      </button>
+    </main>
+
+    <script src="js/quick-main.js"></script>
+  </body>
+</html>

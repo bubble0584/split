@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/find-id.css" />
+
+    <title>find-id | 스플릿</title>
+  </head>
+  <body>
+    <main class="app-screen find-id-screen">
+      <section class="find-id-box">
+        <h1>ID 찾기</h1>
+        <div class="find-id-field">
+          <label for="phone">휴대폰 번호</label>
+          <div class="verify-input-box">
+            <input
+              type="tel"
+              id="phone"
+              placeholder="휴대폰 번호를 입력해 주세요."
+            />
+
+            <button type="button" id="sendCodeButton">인증하기</button>
+          </div>
+        </div>
+
+        <div class="find-id-field">
+          <label for="verificationCode">인증번호</label>
+          <div class="verify-input-box">
+            <input
+              type="text"
+              id="verificationCode"
+              placeholder="인증번호를 입력해 주세요."
+            />
+
+            <button type="button" id="verifyCodeButton">인증완료</button>
+          </div>
+        </div>
+
+        <p id="findIdMessage"></p>
+
+        <button type="button" id="findIdButton" class="find-id-button">
+          ID 찾기
+        </button>
+      </section>
+    </main>
+  </body>
+
+  <script src="js/find-id.js"></script>
+</html>

@@ -1,0 +1,216 @@
+body {
+  margin: 0;
+  background-color: #f5f5f5;
+}
+
+.quick-room-screen {
+  position: relative;
+
+  min-height: 100vh;
+
+  padding-bottom: 80px;
+
+  box-sizing: border-box;
+
+  background-color: white;
+}
+
+/* =========================
+   상단 헤더
+========================= */
+
+.quick-header {
+  position: relative;
+
+  flex-shrink: 0;
+
+  width: 100%;
+  height: 58px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0 16px;
+
+  border-bottom: 1px solid #eeeeee;
+
+  box-sizing: border-box;
+}
+
+/* 제목 */
+
+.quick-header h1 {
+  margin: 0;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  text-align: center;
+
+  white-space: nowrap;
+}
+
+/* =========================
+   뒤로가기 버튼
+========================= */
+
+.quick-header .back-button {
+  position: absolute;
+
+  left: 16px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0;
+
+  border: none;
+  background: none;
+
+  cursor: pointer;
+}
+
+/* 뒤로가기 SVG */
+
+.quick-header .back-button img {
+  width: 21px;
+  height: 21px;
+
+  display: block;
+
+  object-fit: contain;
+}
+
+/* 오른쪽 빈 공간 */
+
+.quick-header .header-space {
+  position: absolute;
+
+  right: 16px;
+
+  width: 32px;
+  height: 32px;
+}
+/* =========================
+   참여자 입력
+========================= */
+
+.participant-input-section {
+  margin: 16px;
+
+  padding: 16px;
+
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+
+  box-sizing: border-box;
+}
+
+.participant-input-section label {
+  display: block;
+
+  margin-bottom: 10px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.participant-input-box {
+  width: 100%;
+
+  border-bottom: 1px solid #999999;
+}
+
+.participant-input-box input {
+  width: 100%;
+
+  padding: 7px 0;
+
+  border: none;
+  outline: none;
+
+  font-size: 13px;
+
+  box-sizing: border-box;
+}
+
+.participant-input-box input::placeholder {
+  color: #bbbbbb;
+}
+
+/* =========================
+   참여자 목록
+========================= */
+
+.participant-list-section {
+  padding: 0 16px;
+}
+
+.participant-list-section h2 {
+  margin: 20px 0 12px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.participant-item {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 8px 0;
+
+  font-size: 13px;
+}
+
+.participant-color {
+  width: 20px;
+  height: 20px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+}
+
+.participant-name {
+  color: #222;
+}
+
+/* =========================
+   하단 버튼
+========================= */
+
+.start-settlement-button {
+  position: absolute;
+
+  left: 16px;
+  right: 16px;
+  bottom: 20px;
+
+  height: 46px;
+
+  border: none;
+  border-radius: 7px;
+
+  background-color: #52aead;
+
+  color: white;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.start-settlement-button:active {
+  background-color: #459b9a;
+}

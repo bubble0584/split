@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/signup.css" />
+
+    <title>회원가입 | 스플릿</title>
+  </head>
+  <body>
+    <main class="app-screen signup-screen">
+      <section class="signup-box">
+        <h1>회원정보를 입력해 주세요.</h1>
+        <form id="signupForm">
+          <div class="signup-field">
+            <label for="userId">ID</label>
+            <input
+              type="text"
+              id="userId"
+              placeholder="4~12자로 입력해 주세요."
+            />
+          </div>
+
+          <div class="signup-field">
+            <label for="password">비밀번호</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="5~20자, 영문 및 숫자로 조합해 주세요."
+            />
+          </div>
+
+          <div class="signup-field">
+            <label for="passwordConfirm">비밀번호 확인</label>
+            <input
+              type="password"
+              id="passwordConfirm"
+              placeholder="비밀번호를 다시 입력해 주세요."
+            />
+          </div>
+
+          <div class="signup-field">
+            <label for="name">이름</label>
+            <input
+              type="text"
+              name=""
+              id="name"
+              placeholder="이름을 입력해 주세요."
+            />
+          </div>
+
+          <div class="signup-field">
+            <label for="phone">휴대폰 번호</label>
+            <div class="verify-input-box">
+              <input
+                type="tel"
+                id="phone"
+                placeholder="휴대폰 번호를 입력해주세요"
+              />
+
+              <button type="button" id="sendCodeButton">인증하기</button>
+            </div>
+          </div>
+
+          <div class="signup-field">
+            <label for="verificationCode">인증번호</label>
+            <div class="verify-input-box">
+              <input
+                type="text"
+                id="verificationCode"
+                placeholder="문자로 전송된 인증 코드를 입력해 주세요."
+              />
+              <button type="button" id="verifyCodeButton">인증완료</button>
+            </div>
+          </div>
+
+          <div class="signup-field">
+            <label for="email">이메일</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="메일 주소를 입력해 주세요."
+            />
+          </div>
+
+          <p id="signupMessage"></p>
+
+          <button type="submit" class="signup-button">회원가입</button>
+        </form>
+      </section>
+    </main>
+
+    <script src="js/signup.js"></script>
+  </body>
+</html>

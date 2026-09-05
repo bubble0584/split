@@ -1,0 +1,296 @@
+/* =========================
+   QUICK RESULT
+========================= */
+
+body {
+  margin: 0;
+  background-color: #f5f5f5;
+}
+
+.quick-result-screen {
+  position: relative;
+
+  min-height: 100vh;
+
+  padding-bottom: 95px;
+
+  box-sizing: border-box;
+
+  background-color: white;
+
+  overflow-y: auto;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.result-header {
+  height: 58px;
+
+  display: grid;
+  grid-template-columns: 60px 1fr 60px;
+
+  align-items: center;
+
+  padding: 0 12px;
+
+  border-bottom: 1px solid #eeeeee;
+
+  box-sizing: border-box;
+}
+
+.result-header h1 {
+  margin: 0;
+
+  text-align: center;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.back-button {
+  border: none;
+  background: none;
+
+  padding: 0;
+
+  text-align: left;
+
+  font-size: 25px;
+
+  cursor: pointer;
+}
+
+.share-button {
+  border: none;
+  background: none;
+
+  padding: 0;
+
+  color: #52aead;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+/* =========================
+   RESULT LIST
+========================= */
+
+.result-list {
+  padding: 16px;
+}
+
+/* =========================
+   PARTICIPANT CARD
+========================= */
+
+.result-card {
+  margin-bottom: 14px;
+
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+
+  overflow: hidden;
+
+  background-color: white;
+
+  transition: 0.15s;
+}
+
+/* 선택된 카드 */
+
+.result-card.selected {
+  border-color: #52aead;
+
+  box-shadow: 0 0 0 1px #52aead;
+}
+
+/* 송금 완료 카드 */
+
+.result-card.paid {
+  opacity: 0.5;
+}
+
+/* =========================
+   CARD HEADER
+========================= */
+
+.result-card-header {
+  min-height: 58px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 14px;
+
+  box-sizing: border-box;
+
+  cursor: pointer;
+}
+
+/* 색상 프로필 */
+
+.result-profile {
+  width: 28px;
+  height: 28px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+}
+
+/* 이름 */
+
+.result-name {
+  margin-left: 10px;
+
+  flex: 1;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.me-label {
+  margin-left: 3px;
+
+  color: #777;
+
+  font-size: 11px;
+}
+
+/* 금액 */
+
+.result-amount {
+  margin-right: 10px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+/* 펼치기 */
+
+.detail-toggle {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: none;
+  background: none;
+
+  padding: 0;
+
+  font-size: 20px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+/* =========================
+   DETAIL
+========================= */
+
+.result-detail {
+  display: none;
+
+  padding: 4px 16px 14px 48px;
+
+  border-top: 1px solid #eeeeee;
+}
+
+.result-card.open .result-detail {
+  display: block;
+}
+
+/* 한 항목 */
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 7px 0;
+
+  font-size: 11px;
+}
+
+.detail-item-name {
+  color: #333;
+}
+
+/* 오른쪽 금액 */
+
+.detail-item-amount {
+  color: #555;
+
+  text-align: right;
+
+  white-space: nowrap;
+}
+
+/* 환산 전 금액 */
+
+.original-amount {
+  color: #999;
+
+  font-size: 10px;
+}
+
+/* 완료 표시 */
+
+.paid-label {
+  margin-left: 6px;
+
+  color: #52aead;
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* =========================
+   BOTTOM BUTTON
+========================= */
+
+.payment-complete-button {
+  position: fixed;
+
+  left: 50%;
+  bottom: 20px;
+
+  transform: translateX(-50%);
+
+  width: calc(100% - 32px);
+  max-width: 358px;
+
+  height: 46px;
+
+  border: none;
+  border-radius: 7px;
+
+  background-color: #52aead;
+
+  color: white;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  z-index: 100;
+}
+
+.payment-complete-button:disabled {
+  background-color: #c5c5c5;
+
+  cursor: default;
+}

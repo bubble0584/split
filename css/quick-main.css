@@ -1,0 +1,565 @@
+body {
+  margin: 0;
+
+  background-color: #f5f5f5;
+
+  /* 전체 페이지 스크롤 금지 */
+  overflow: hidden;
+}
+
+.quick-main-screen {
+  position: relative;
+
+  height: 100dvh;
+
+  display: flex;
+  flex-direction: column;
+
+  box-sizing: border-box;
+
+  background-color: white;
+
+  /* 전체 화면은 안 움직임 */
+  overflow: hidden;
+}
+
+/* =========================
+   상단 헤더
+========================= */
+
+.quick-main-header {
+  flex-shrink: 0;
+
+  height: 58px;
+
+  display: grid;
+  grid-template-columns: 60px 1fr 60px;
+
+  align-items: center;
+
+  padding: 0 12px;
+
+  border-bottom: 1px solid #eeeeee;
+
+  box-sizing: border-box;
+
+  background-color: white;
+}
+
+.quick-main-header h1 {
+  margin: 0;
+
+  text-align: center;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* =========================
+   뒤로가기 SVG
+========================= */
+
+.back-button {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  padding: 30 0;
+
+  border: none;
+  background: none;
+
+  cursor: pointer;
+}
+
+.back-button img {
+  width: 21px;
+  height: 21px;
+
+  display: block;
+
+  object-fit: contain;
+}
+
+/* =========================
+   수정하기
+========================= */
+
+.edit-room-button {
+  padding: 0;
+
+  border: none;
+  background: none;
+
+  color: #52aead;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+/* =========================
+   입력 카드
+========================= */
+
+.item-input-card {
+  flex-shrink: 0;
+
+  margin: 16px;
+  padding: 16px;
+
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+
+  box-sizing: border-box;
+}
+
+/* =========================
+   일반 입력
+========================= */
+
+.input-field {
+  margin-bottom: 20px;
+}
+
+.input-field label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.input-field > input {
+  width: 100%;
+
+  padding: 7px 0;
+
+  border: none;
+  border-bottom: 1px solid #999999;
+
+  outline: none;
+
+  font-size: 13px;
+
+  box-sizing: border-box;
+}
+
+.input-field input::placeholder {
+  color: #bbbbbb;
+}
+
+/* =========================
+   금액
+========================= */
+
+.amount-row {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+/* 통화 선택 */
+
+.currency-select {
+  width: 55px;
+  height: 35px;
+
+  border: 1px solid #dddddd;
+  border-radius: 6px;
+
+  background-color: white;
+
+  font-size: 14px;
+
+  outline: none;
+
+  cursor: pointer;
+}
+
+/* 금액 입력 */
+
+.amount-input-box {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+
+  border-bottom: 1px solid #999999;
+}
+
+.currency-symbol {
+  margin-right: 5px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #333333;
+}
+
+.amount-input-box input {
+  width: 100%;
+
+  padding: 7px 0;
+
+  border: none;
+
+  outline: none;
+
+  font-size: 13px;
+}
+
+/* =========================
+   환율
+========================= */
+
+.exchange-rate {
+  min-height: 14px;
+
+  margin: 6px 0 0 63px;
+
+  color: #999999;
+
+  font-size: 10px;
+}
+
+/* =========================
+   참여 인원
+========================= */
+
+.participant-select-section {
+  margin-top: 8px;
+}
+
+.participant-select-section h2 {
+  margin: 0 0 10px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.participant-buttons {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+/* 참여자 버튼 */
+
+.participant-select-button {
+  min-width: 52px;
+
+  padding: 7px 8px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 5px;
+
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+
+  background-color: white;
+
+  cursor: pointer;
+
+  transition: 0.15s;
+}
+
+/* 참여자 색상 */
+
+.participant-dot {
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+}
+
+.participant-select-button span:last-child {
+  font-size: 9px;
+}
+
+/* 선택된 사람 */
+
+.participant-select-button.selected {
+  border-color: #52aead;
+
+  background-color: rgba(82, 174, 173, 0.08);
+}
+
+/* =========================
+   항목 추가 버튼
+========================= */
+
+.add-item-button {
+  margin: 18px 0 0 auto;
+
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 8px 14px;
+
+  border: none;
+  border-radius: 20px;
+
+  background-color: #52aead;
+
+  color: white;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.add-item-button span {
+  font-size: 17px;
+}
+
+/* =========================
+   정산 항목 영역
+========================= */
+
+.settlement-items-section {
+  flex: 1;
+
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 0 24px;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+}
+
+/* "정산 항목" 제목은 고정 */
+
+.settlement-items-section > h2 {
+  flex-shrink: 0;
+
+  margin: 0 0 4px;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* =========================
+   ★ 정산 내용만 스크롤
+========================= */
+
+#settlementItems {
+  flex: 1;
+
+  min-height: 0;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding-bottom: 8px;
+
+  box-sizing: border-box;
+
+  -webkit-overflow-scrolling: touch;
+
+  scrollbar-width: none;
+}
+
+#settlementItems::-webkit-scrollbar {
+  display: none;
+}
+
+/* =========================
+   항목 한 줄
+========================= */
+
+.settlement-item {
+  position: relative;
+
+  overflow: hidden;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+/* =========================
+   스와이프 시 뒤에 나오는 버튼 영역
+========================= */
+
+.item-actions {
+  position: absolute;
+
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+
+  z-index: 1;
+}
+
+/* 수정 / 삭제 공통 */
+
+.item-action-button {
+  width: 64px;
+
+  border: none;
+
+  color: white;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+/* 수정 */
+
+.edit-item-button {
+  background-color: #52aead;
+}
+
+/* 삭제 */
+
+.delete-item-button {
+  background-color: #e86d6d;
+}
+
+/* =========================
+   실제 항목 내용
+========================= */
+
+.settlement-item-content {
+  position: relative;
+  z-index: 2;
+
+  min-height: 58px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  /* ★ 수정/삭제 버튼이랑 너무 붙지 않게 */
+  padding-right: 12px;
+
+  box-sizing: border-box;
+
+  background-color: white;
+
+  transition: transform 0.2s ease;
+
+  touch-action: pan-y;
+}
+
+/* =========================
+   항목 이름
+========================= */
+
+.item-name {
+  flex: 1;
+
+  min-width: 0;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  color: #222;
+}
+
+/* =========================
+   오른쪽 금액 + 참여자
+========================= */
+
+.item-right {
+  flex-shrink: 0;
+
+  display: grid;
+
+  /* ★ 모든 행의 금액 / 동그라미 위치 고정 */
+  grid-template-columns: 82px 70px;
+
+  align-items: center;
+
+  column-gap: 10px;
+}
+
+/* =========================
+   금액
+========================= */
+
+.item-amount {
+  width: 82px;
+
+  text-align: right;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+/* =========================
+   참여자 색상 영역
+========================= */
+
+.item-participants {
+  width: 70px;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  gap: 4px;
+}
+
+/* 참여자 동그라미 */
+
+.item-participant-dot {
+  width: 14px;
+  height: 14px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+}
+/* =========================
+   하단 정산 버튼
+========================= */
+
+.settle-button {
+  flex-shrink: 0;
+
+  position: static;
+
+  width: calc(100% - 32px);
+  height: 46px;
+
+  margin: 10px 16px 20px;
+
+  border: none;
+  border-radius: 7px;
+
+  background-color: #52aead;
+  color: white;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+}

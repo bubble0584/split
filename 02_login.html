@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/login.css" />
+
+    <title>로그인 | 스플릿</title>
+  </head>
+  <body>
+    <main class="app-screen login-screen">
+      <section class="login-box">
+        <h1>로그인</h1>
+        <form class="login-form" action="05_home.html">
+          <input
+            type="text"
+            id="userId"
+            placeholder="아이디"
+            class="login-input"
+          />
+          <input
+            type="password"
+            id="password"
+            placeholder="비밀번호"
+            class="login-input"
+          />
+
+          <div class="login-options">
+            <label>
+              <input type="checkbox" id="autoLogin" />
+              자동로그인
+            </label>
+
+            <label>
+              <input type="checkbox" id="saveId" />
+              아이디 저장
+            </label>
+          </div>
+
+          <button type="submit" class="login-button">로그인</button>
+        </form>
+
+        <div class="account-links">
+          <a href="03_signup.html">회원가입</a>
+          <span>|</span>
+          <a href="04_find-accout.html">아이디/비밀번호 찾기</a>
+        </div>
+
+        <div class="social-login-area">
+          <a href="05_home.html" class="guest-button">Guest로 로그인</a>
+
+          <button class="social-button google-login">
+            <img src="image/google.svg" alt="Google" />
+            <span>구글 로그인</span>
+          </button>
+
+          <button class="social-button naver-login">
+            <img src="image/네이버 로고.svg" alt="Naver" />
+            <span>네이버 로그인</span>
+          </button>
+
+          <button class="social-button kakao-login">
+            <img src="image/카카오 로고.svg" alt="Kakao" />
+            <span>카카오 로그인</span>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/login.js"></script>
+  </body>
+</html>

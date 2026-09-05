@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="css/common.css" />
+
+    <link rel="stylesheet" href="css/quick-item-detail.css" />
+
+    <title>항목 상세 | 스플릿</title>
+  </head>
+
+  <body>
+    <main class="app-screen item-detail-screen">
+      <!-- =========================
+           상단 헤더
+      ========================== -->
+
+      <header class="item-detail-header">
+        <!-- 뒤로가기 -->
+
+        <button type="button" class="back-button" onclick="history.back()">
+          <img src="image/뒤로가기.svg" alt="뒤로가기" />
+        </button>
+
+        <!-- 빈 중앙 영역 -->
+
+        <div></div>
+
+        <!-- 수정하기 -->
+
+        <button type="button" class="edit-item-button" id="editItemButton">
+          수정하기
+        </button>
+      </header>
+
+      <!-- =========================
+           항목 기본 정보
+      ========================== -->
+
+      <section class="item-detail-summary">
+        <!-- 항목명 -->
+
+        <h1 class="detail-item-name" id="detailItemName">떡볶이</h1>
+
+        <!-- 결제자 + 총 금액 -->
+
+        <div class="payer-row">
+          <div class="payer-info">
+            <span class="participant-avatar" id="payerColor"></span>
+
+            <span id="payerName"> 나 (방장) </span>
+          </div>
+
+          <strong class="detail-total-amount" id="detailTotalAmount">
+            ₩28,000
+          </strong>
+        </div>
+      </section>
+
+      <!-- =========================
+           참여자
+      ========================== -->
+
+      <section class="item-participant-card">
+        <h2 id="participantCount">참여자 (0명)</h2>
+
+        <div class="detail-participant-list" id="detailParticipantList">
+          <!-- JS에서 생성 -->
+        </div>
+      </section>
+    </main>
+
+    <script src="js/quick-item-detail.js"></script>
+  </body>
+</html>

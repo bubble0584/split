@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/quick-summary.css" />
+
+    <title>정산 요약 | 스플릿</title>
+  </head>
+
+  <body>
+    <main class="app-screen quick-summary-screen">
+      <!-- =========================
+           상단 헤더
+      ========================== -->
+
+      <header class="summary-header">
+        <button type="button" class="back-button" onclick="history.back()">
+          ←
+        </button>
+
+        <h1 id="roomTitle">정산방</h1>
+
+        <div class="header-space"></div>
+      </header>
+
+      <!-- =========================
+           정산 정보 카드
+      ========================== -->
+
+      <section class="summary-card">
+        <!-- 총 결제 금액 -->
+
+        <div class="total-section">
+          <p class="summary-label">총 결제 금액</p>
+
+          <div class="total-amount" id="totalAmount">계산 중...</div>
+
+          <p class="base-currency-info" id="baseCurrencyInfo"></p>
+        </div>
+
+        <div class="summary-divider"></div>
+
+        <!-- 총 결제 내역 -->
+
+        <div class="payment-count-row">
+          <span> 총 결제 내역 </span>
+
+          <strong id="paymentCount"> 0건 </strong>
+        </div>
+
+        <div class="summary-divider"></div>
+
+        <!-- 참여자 -->
+
+        <div class="participants-summary">
+          <h2 id="participantCount">참여자 (0명)</h2>
+
+          <div class="summary-participant-list" id="participantList"></div>
+        </div>
+      </section>
+
+      <!-- =========================
+           하단 버튼
+      ========================== -->
+
+      <button type="button" class="send-money-button" id="sendMoneyButton">
+        정산하기
+      </button>
+    </main>
+
+    <script src="js/quick-summary.js"></script>
+  </body>
+</html>

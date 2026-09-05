@@ -1,0 +1,59 @@
+.find-account-screen {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.find-account-box {
+  width: 100%;
+  padding-top: 70px;
+}
+
+.find-account-box h1 {
+  margin: 0 0 24px;
+
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.find-account-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.find-account-button {
+  width: 100%;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  border: 1px solid #cfd6dc;
+
+  background-color: white;
+  color: #333333;
+
+  font-size: 14px;
+  text-decoration: none;
+
+  cursor: pointer;
+}
+
+.find-account-button:hover {
+  background-color: #52aead;
+  border-color: #52aead;
+  color: white;
+}
+
+.find-account-button:active {
+  background-color: #52aead;
+  border-color: #52aead;
+  color: white;
+}

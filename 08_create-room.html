@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/create-room.css" />
+
+    <title>정산방 만들기 | 스플릿</title>
+  </head>
+
+  <body>
+    <main class="app-screen create-room-screen">
+      <header class="page-header">
+        <a href="05_home.html" class="back-button">
+          <img src="image/뒤로가기.svg" alt="뒤로가기" />
+        </a>
+        <h1>정산방 만들기</h1>
+        <div class="header-space"></div>
+      </header>
+
+      <section class="create-room-content">
+        <!-- 모임 이름 -->
+        <div class="create-room-field">
+          <label for="roomName">모임 이름</label>
+
+          <input type="text" id="roomName" placeholder="강남역 저녁 모임" />
+        </div>
+
+        <!-- 정산 기한 -->
+        <div class="create-room-field">
+          <label for="deadline">정산 기한</label>
+
+          <input type="date" id="deadline" />
+        </div>
+
+        <!-- 기준 통화 -->
+        <div class="create-room-field">
+          <label for="baseCurrency">기준 통화</label>
+
+          <select id="baseCurrency">
+            <option value="KRW">₩ KRW</option>
+            <option value="USD">$ USD</option>
+            <option value="JPY">¥ JPY</option>
+            <option value="EUR">€ EUR</option>
+            <option value="GBP">£ GBP</option>
+          </select>
+
+          <p class="currency-help">
+            정산 결과에서 금액을 환산해 보여줄 기준 통화예요.
+          </p>
+        </div>
+
+        <!-- 설명 -->
+        <div class="create-room-field">
+          <label for="description">
+            설명
+            <span class="optional">(선택)</span>
+          </label>
+
+          <input
+            type="text"
+            id="description"
+            placeholder="ex. 8/10 저녁 모임"
+          />
+        </div>
+      </section>
+
+      <button class="create-room-button" id="createRoomButton">
+        방 생성하기
+      </button>
+
+      <script src="js/create-room.js"></script>
+    </main>
+  </body>
+</html>
