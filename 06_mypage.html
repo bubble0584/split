@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="css/common.css" />
+
+    <link rel="stylesheet" href="css/mypage.css" />
+
+    <title>마이페이지 | 스플릿</title>
+  </head>
+
+  <body>
+    <main class="app-screen mypage-screen">
+      <!-- =========================
+           프로필 보기 화면
+      ========================== -->
+
+      <section class="mypage-view" id="mypageView">
+        <!-- 상단 -->
+
+        <header class="mypage-header">
+          <button type="button" class="back-button" id="backButton">
+            <img src="image/뒤로가기.svg" alt="뒤로가기" />
+          </button>
+
+          <h1>마이페이지</h1>
+
+          <div class="header-space"></div>
+        </header>
+
+        <!-- 프로필 -->
+
+        <section class="profile-section">
+          <div class="profile-image-wrap" id="profileImageWrap">
+            <img src="image/프로필.svg" alt="프로필" id="profileImage" />
+          </div>
+
+          <h2 class="profile-name" id="profileName">승주</h2>
+
+          <p class="profile-id" id="profileId">@songs083</p>
+        </section>
+
+        <!-- 정보 -->
+
+        <section class="profile-info-section">
+          <div class="profile-info-row">
+            <span class="profile-info-label"> 계좌 </span>
+
+            <span class="profile-info-value" id="profileAccount">
+              한국은행 000-000000-00000
+            </span>
+          </div>
+
+          <div class="profile-info-row">
+            <span class="profile-info-label"> 전화번호 </span>
+
+            <span class="profile-info-value" id="profilePhone">
+              010-0000-0000
+            </span>
+          </div>
+
+          <div class="profile-info-row">
+            <span class="profile-info-label"> 메일 </span>
+
+            <span class="profile-info-value" id="profileEmail">
+              abcdef@gmail.com
+            </span>
+          </div>
+        </section>
+
+        <!-- 수정 버튼 -->
+
+        <button
+          type="button"
+          class="profile-edit-button"
+          id="profileEditButton"
+        >
+          프로필 수정하기
+        </button>
+      </section>
+
+      <!-- =========================
+           프로필 수정 화면
+      ========================== -->
+
+      <section class="profile-edit-view hidden" id="profileEditView">
+        <!-- 상단 -->
+
+        <header class="mypage-header">
+          <button type="button" class="back-button" id="editBackButton">
+            <img src="image/뒤로가기.svg" alt="뒤로가기" />
+          </button>
+
+          <h1>프로필 수정</h1>
+
+          <div class="header-space"></div>
+        </header>
+
+        <!-- 프로필 사진 -->
+
+        <section class="edit-profile-image-section">
+          <button
+            type="button"
+            class="edit-profile-image-button"
+            id="editProfileImageButton"
+          >
+            <img src="image/프로필.svg" alt="프로필" id="editProfileImage" />
+
+            <span class="camera-icon"> 📷 </span>
+          </button>
+
+          <input type="file" id="profileImageInput" accept="image/*" hidden />
+        </section>
+
+        <!-- 입력 -->
+
+        <section class="profile-edit-form">
+          <div class="edit-field">
+            <label for="editName"> 이름 </label>
+
+            <input type="text" id="editName" placeholder="이름" />
+          </div>
+
+          <div class="edit-field">
+            <label for="editAccount"> 나의 계좌 </label>
+
+            <input
+              type="text"
+              id="editAccount"
+              placeholder="한국은행 000-000000-00000"
+            />
+          </div>
+
+          <div class="edit-field">
+            <label for="editPhone"> 휴대폰 번호 </label>
+
+            <input type="text" id="editPhone" placeholder="010-0000-0000" />
+          </div>
+
+          <div class="edit-field">
+            <label for="editEmail"> 이메일 </label>
+
+            <input type="email" id="editEmail" placeholder="abcdef@gmail.com" />
+          </div>
+        </section>
+
+        <!-- 완료 -->
+
+        <button
+          type="button"
+          class="profile-save-button"
+          id="profileSaveButton"
+        >
+          수정완료
+        </button>
+      </section>
+    </main>
+
+    <script src="js/mypage.js"></script>
+  </body>
+</html>

@@ -4,71 +4,51 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <title>항목 상세</title>
+
     <link rel="stylesheet" href="css/common.css" />
-
     <link rel="stylesheet" href="css/quick-item-detail.css" />
-
-    <title>항목 상세 | 스플릿</title>
   </head>
 
   <body>
-    <main class="app-screen item-detail-screen">
-      <!-- =========================
-           상단 헤더
-      ========================== -->
+    <!-- 뒤쪽 어두운 배경 -->
+    <div class="detail-backdrop" id="detailBackdrop"></div>
 
-      <header class="item-detail-header">
-        <!-- 뒤로가기 -->
+    <!-- 밑에서 올라오는 상세창 -->
+    <main class="item-detail-sheet" id="detailSheet">
+      <!-- 드래그 핸들 -->
+      <div class="sheet-handle-area" id="sheetHandle">
+        <div class="sheet-handle"></div>
+      </div>
 
-        <button type="button" class="back-button" onclick="history.back()">
-          <img src="image/뒤로가기.svg" alt="뒤로가기" />
-        </button>
+      <!-- 제목 -->
+      <section class="item-summary">
+        <h1 id="detailItemName"></h1>
 
-        <!-- 빈 중앙 영역 -->
-
-        <div></div>
-
-        <!-- 수정하기 -->
-
-        <button type="button" class="edit-item-button" id="editItemButton">
-          수정하기
-        </button>
-      </header>
-
-      <!-- =========================
-           항목 기본 정보
-      ========================== -->
-
-      <section class="item-detail-summary">
-        <!-- 항목명 -->
-
-        <h1 class="detail-item-name" id="detailItemName">떡볶이</h1>
-
-        <!-- 결제자 + 총 금액 -->
-
-        <div class="payer-row">
-          <div class="payer-info">
-            <span class="participant-avatar" id="payerColor"></span>
-
-            <span id="payerName"> 나 (방장) </span>
-          </div>
-
-          <strong class="detail-total-amount" id="detailTotalAmount">
-            ₩28,000
-          </strong>
-        </div>
+        <!-- quick 모드일 때만 표시 -->
+        <p class="detail-total-amount hidden" id="detailItemAmount"></p>
       </section>
 
-      <!-- =========================
-           참여자
-      ========================== -->
-
-      <section class="item-participant-card">
-        <h2 id="participantCount">참여자 (0명)</h2>
-
-        <div class="detail-participant-list" id="detailParticipantList">
-          <!-- JS에서 생성 -->
+      <!-- 결제자: together 모드에서만 표시 -->
+      <div class="payer-row hidden" id="payerRow">
+        <div class="payer-profile">
+          <img
+            id="payerProfileImage"
+            src="./image/프로필.svg"
+            alt="결제자 프로필"
+          />
         </div>
+
+        <span class="payer-name" id="payerName"></span>
+
+        <span class="payer-amount" id="payerAmount"></span>
+      </div>
+
+      <!-- 참여자 -->
+      <section class="participant-detail-card">
+        <h2 id="detailParticipantTitle"></h2>
+
+        <div class="detail-participant-list" id="detailParticipantList"></div>
       </section>
     </main>
 

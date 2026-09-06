@@ -5,13 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="css/common.css" />
+
     <link rel="stylesheet" href="css/home.css" />
 
     <title>홈 | 스플릿</title>
   </head>
+
   <body>
     <main class="app-screen home-screen">
-      <!-- 상단 헤더 -->
+      <!-- =========================
+           상단 헤더
+      ========================== -->
+
       <header class="home-header">
         <div></div>
 
@@ -26,31 +31,43 @@
         </div>
       </header>
 
-      <!-- 메인 -->
+      <!-- =========================
+           메인
+      ========================== -->
+
       <section class="home-content">
         <!-- 함께 정산 -->
+
         <div class="start-card">
           <h2>함께 정산해 볼까요?</h2>
+
           <p>각자가 지불한 항목을 추가하여 정산해요.</p>
 
           <a href="08_create-room.html?mode=together" class="start-button">
-            <span class="plus-small">+</span>
+            <span class="plus-small"> + </span>
+
             정산 시작하기
           </a>
         </div>
 
         <!-- 빠르게 정산 -->
+
         <div class="start-card">
           <h2>빠르게 정산해 볼까요?</h2>
+
           <p>항목별 참여자를 선택해 정산해요.</p>
 
           <a href="08_create-room.html?mode=quick" class="start-button">
-            <span class="plus-small">+</span>
+            <span class="plus-small"> + </span>
+
             정산 시작하기
           </a>
         </div>
 
-        <!-- 정산 진행도 (진행중인 정산) -->
+        <!-- =========================
+             진행 중인 정산
+        ========================== -->
+
         <section class="settlement-section">
           <h2 class="section-title">진행 중인 정산</h2>
 
@@ -58,17 +75,19 @@
         </section>
       </section>
 
-      <!-- 하단 -->
+      <!-- =========================
+           하단 메뉴
+      ========================== -->
+
       <nav class="bottom-nav">
-        <a href="#" class="nav-item">
+        <a href="07_정산방.html" class="nav-item">
           <img src="image/정산방 아이콘.svg" alt="정산방" class="nav-image" />
           <span>정산방</span>
         </a>
 
-        <!-- 가운데 + 자리만 비워둠 -->
         <div class="nav-center-space"></div>
 
-        <a href="#" class="nav-item">
+        <a href="06_mypage.html" class="nav-item">
           <img
             src="image/마이페이지 아이콘.svg"
             alt="마이페이지"
@@ -78,10 +97,16 @@
         </a>
       </nav>
 
-      <!-- ★ + 버튼을 하단바 밖으로 뺌 -->
+      <!-- =========================
+           가운데 + 버튼
+      ========================== -->
+
       <button class="main-add-button" type="button">+</button>
 
-      <!-- 어두운 배경 + 선택 메뉴 -->
+      <!-- =========================
+           정산 방식 선택
+      ========================== -->
+
       <div class="settlement-overlay" id="settlementOverlay">
         <div class="settlement-menu">
           <a href="08_create-room.html?mode=together"> 함께 정산하기 </a>
@@ -98,6 +123,7 @@
         </div>
       </div>
     </main>
+
     <script src="js/home.js"></script>
   </body>
 </html>

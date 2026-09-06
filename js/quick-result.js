@@ -10,60 +10,99 @@ const resultList = document.getElementById("resultList");
 
 const paymentCompleteButton = document.getElementById("paymentCompleteButton");
 
+const homeButton = document.getElementById("homeButton");
+
+const backButton = document.getElementById("backButton");
+
+const shareButton = document.getElementById("shareButton");
+
+/* =========================
+   URL roomId
+========================= */
+
+const params = new URLSearchParams(window.location.search);
+
+const roomIdFromUrl = params.get("roomId");
+
 /* =========================
    방 정보
 ========================= */
 
-const rooms = JSON.parse(localStorage.getItem("rooms")) || [];
+let rooms = JSON.parse(localStorage.getItem("rooms")) || [];
 
-const currentRoom = rooms.length > 0 ? rooms[rooms.length - 1] : null;
+let currentRoom = null;
 
-const currentRoomId = currentRoom?.id || "default";
+/* URL 우선 */
+
+if (roomIdFromUrl) {
+  currentRoom =
+    rooms.find(function (room) {
+      return String(room.id) === String(roomIdFromUrl);
+    }) || null;
+}
+
+/* session fallback */
+
+if (!currentRoom) {
+  const savedRoomId = sessionStorage.getItem("currentRoomId");
+
+  if (savedRoomId) {
+    currentRoom =
+      rooms.find(function (room) {
+        return String(room.id) === String(savedRoomId);
+      }) || null;
+  }
+}
+
+/* 마지막 방 fallback */
+
+if (!currentRoom && rooms.length > 0) {
+  currentRoom = rooms[rooms.length - 1];
+}
+
+/* 방 없음 */
+
+if (!currentRoom) {
+  alert("정산방 정보를 찾을 수 없습니다.");
+
+  location.href = "05_home.html";
+}
 
 /* =========================
-   방별 저장 KEY
+   현재 방 ID
 ========================= */
 
-const quickItemsKey = `quickItems_${currentRoomId}`;
+const currentRoomId = String(currentRoom.id);
 
-const paidParticipantsKey = `quickPaidParticipants_${currentRoomId}`;
+sessionStorage.setItem("currentRoomId", currentRoomId);
 
 /* =========================
-   참여자
+   저장된 결과
 ========================= */
 
-const participants =
-  JSON.parse(sessionStorage.getItem("quickParticipants")) || [];
+const resultKey = `quickSettlementResult_${currentRoomId}`;
+
+const settlementResult = JSON.parse(localStorage.getItem(resultKey));
+
+if (!settlementResult) {
+  alert("아직 생성된 정산 결과가 없습니다.");
+
+  location.href = "05_home.html";
+}
 
 /* =========================
-   정산 항목
+   결과 데이터
 ========================= */
 
-const items = JSON.parse(sessionStorage.getItem(quickItemsKey)) || [];
+const participants = Array.isArray(settlementResult.participants)
+  ? settlementResult.participants
+  : [];
 
-/* =========================
-   기준 통화
-========================= */
+const participantResults = Array.isArray(settlementResult.participantResults)
+  ? settlementResult.participantResults
+  : [];
 
-const baseCurrency = sessionStorage.getItem("quickBaseCurrency") || "KRW";
-
-/* =========================
-   정산할 때 저장된 환율
-========================= */
-
-const savedRates =
-  JSON.parse(sessionStorage.getItem("quickSettlementRates")) || {};
-
-/* =========================
-   송금 완료 참여자
-========================= */
-
-let paidParticipantIds =
-  JSON.parse(localStorage.getItem(paidParticipantsKey)) || [];
-
-/* 현재 선택 */
-
-let selectedParticipantIds = [];
+const baseCurrency = settlementResult.baseCurrency || "KRW";
 
 /* =========================
    통화
@@ -92,17 +131,48 @@ const currencies = {
 };
 
 /* =========================
+   선택된 참여자
+========================= */
+
+let selectedParticipantIds = [];
+
+/* =========================
+   송금 완료 참여자
+========================= */
+
+function getPaidParticipantIds() {
+  return (
+    JSON.parse(
+      localStorage.getItem(`quickPaidParticipants_${currentRoomId}`),
+    ) || []
+  );
+}
+
+function savePaidParticipantIds(ids) {
+  localStorage.setItem(
+    `quickPaidParticipants_${currentRoomId}`,
+    JSON.stringify(ids),
+  );
+}
+
+/* =========================
    금액 표시
 ========================= */
 
-function formatMoney(amount, currency) {
-  const symbol = currencies[currency]?.symbol || "";
+function formatAmount(amount) {
+  const number = Number(amount) || 0;
 
-  const digits = currency === "KRW" || currency === "JPY" ? 0 : 2;
+  if (baseCurrency === "KRW") {
+    return "₩" + Math.round(number).toLocaleString("ko-KR");
+  }
+
+  const symbol = currencies[baseCurrency]?.symbol || "";
+
+  const digits = baseCurrency === "JPY" ? 0 : 2;
 
   return (
     symbol +
-    Number(amount).toLocaleString("ko-KR", {
+    number.toLocaleString(undefined, {
       minimumFractionDigits: 0,
       maximumFractionDigits: digits,
     })
@@ -110,98 +180,88 @@ function formatMoney(amount, currency) {
 }
 
 /* =========================
-   기준 통화로 환산
+   원래 통화 금액
 ========================= */
 
-function convertToBase(amount, currency) {
-  if (currency === baseCurrency) {
-    return Number(amount);
+function formatOriginalAmount(amount, currency) {
+  const number = Number(amount) || 0;
+
+  if (currency === "KRW") {
+    return "₩" + Math.round(number).toLocaleString("ko-KR");
   }
 
-  const rate = savedRates[currency];
+  const symbol = currencies[currency]?.symbol || currency;
 
-  if (!rate) {
-    return 0;
-  }
+  const digits = currency === "JPY" ? 0 : 2;
 
-  return Number(amount) * Number(rate);
+  return (
+    symbol +
+    number.toLocaleString(undefined, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: digits,
+    })
+  );
 }
 
 /* =========================
-   참여자별 정산 계산
+   결과 찾기
 ========================= */
 
-function calculateParticipantResult(participantId) {
-  let total = 0;
+function getParticipantResult(participantId) {
+  return (
+    participantResults.find(function (result) {
+      return String(result.id) === String(participantId);
+    }) || null
+  );
+}
 
-  const detailItems = [];
+/* =========================
+   참여자 선택 / 해제
+========================= */
 
-  items.forEach(function (item) {
-    /* 이 사람이 참여하지 않은 항목 */
-
-    if (!item.participantIds.includes(participantId)) {
-      return;
-    }
-
-    const peopleCount = item.participantIds.length;
-
-    if (peopleCount === 0) {
-      return;
-    }
-
-    /*
-        해당 사람 몫
-        원본 통화 기준
-      */
-
-    const originalShare = Number(item.amount) / peopleCount;
-
-    /*
-        기준 통화로 환산
-      */
-
-    const convertedShare = convertToBase(originalShare, item.currency);
-
-    total += convertedShare;
-
-    detailItems.push({
-      name: item.name,
-
-      originalShare: originalShare,
-
-      originalCurrency: item.currency,
-
-      convertedShare: convertedShare,
-    });
+function toggleParticipantSelection(participantId) {
+  const exists = selectedParticipantIds.some(function (id) {
+    return String(id) === String(participantId);
   });
 
-  return {
-    total: total,
-    items: detailItems,
-  };
+  if (exists) {
+    selectedParticipantIds = selectedParticipantIds.filter(function (id) {
+      return String(id) !== String(participantId);
+    });
+  } else {
+    selectedParticipantIds.push(participantId);
+  }
+
+  renderResults();
 }
 
 /* =========================
-   결과 카드 출력
+   카드 출력
 ========================= */
 
 function renderResults() {
   resultList.innerHTML = "";
 
+  const paidIds = getPaidParticipantIds();
+
   participants.forEach(function (participant) {
-    const result = calculateParticipantResult(participant.id);
+    const result = getParticipantResult(participant.id);
 
-    const isPaid = paidParticipantIds.includes(participant.id);
+    if (!result) {
+      return;
+    }
 
-    const isSelected = selectedParticipantIds.includes(participant.id);
+    const isPaid = paidIds.some(function (id) {
+      return String(id) === String(participant.id);
+    });
 
-    /* =========================
-         카드
-      ========================= */
+    const isSelected = selectedParticipantIds.some(function (id) {
+      return String(id) === String(participant.id);
+    });
 
     const card = document.createElement("article");
 
-    card.classList.add("result-card");
+    card.className = "result-card";
 
     if (isPaid) {
       card.classList.add("paid");
@@ -211,134 +271,154 @@ function renderResults() {
       card.classList.add("selected");
     }
 
-    /* =========================
-         헤더
-      ========================= */
+    const detailItems = Array.isArray(result.items) ? result.items : [];
 
-    const header = document.createElement("div");
+    const detailHtml = detailItems
+      .map(function (item) {
+        return `
+              <div
+                class="result-detail-item"
+              >
+                <div
+                  class="result-detail-left"
+                >
+                  <span
+                    class="result-detail-name"
+                  >
+                    ${item.name || "항목"}
+                  </span>
 
-    header.classList.add("result-card-header");
+                  <span
+                    class="result-original-amount"
+                  >
+                    ${formatOriginalAmount(
+                      item.originalShare,
+                      item.originalCurrency,
+                    )}
+                  </span>
+                </div>
 
-    header.innerHTML = `
-        <span
-          class="result-profile"
-          style="
-            background-color:
-            ${participant.color}
-          "
-        ></span>
+                <span
+                  class="result-detail-amount"
+                >
+                  ${formatAmount(item.convertedShare)}
+                </span>
+              </div>
+            `;
+      })
+      .join("");
 
-
-        <span class="result-name">
-
-          ${participant.name}
-
-          ${participant.isMe ? '<span class="me-label">(나)</span>' : ""}
-
-          ${isPaid ? '<span class="paid-label">송금완료</span>' : ""}
-
-        </span>
-
-
-        <span class="result-amount">
-
-          ${formatMoney(result.total, baseCurrency)}
-
-        </span>
-
-
-        <button
-          type="button"
-          class="detail-toggle"
+    card.innerHTML = `
+        <div
+          class="result-card-header"
         >
-          ⌄
-        </button>
+          <div
+            class="result-card-left"
+          >
+            <div
+              class="result-profile"
+              style="
+                background-color:
+                ${participant.color || "#52AEAD"};
+              "
+            ></div>
+
+            <div
+              class="result-name-wrap"
+            >
+              <span
+                class="result-name"
+              >
+                ${participant.name}
+              </span>
+
+              ${
+                participant.isMe
+                  ? `
+                    <span
+                      class="me-label"
+                    >
+                      (나)
+                    </span>
+                  `
+                  : ""
+              }
+            </div>
+          </div>
+
+          <div
+            class="result-card-right"
+          >
+            <strong
+              class="result-amount"
+            >
+              ${formatAmount(result.total)}
+            </strong>
+
+            <span
+              class="detail-toggle"
+              title="자세히 보기"
+            >
+              ⌄
+            </span>
+          </div>
+        </div>
+
+        <div
+          class="result-detail"
+        >
+          <div
+            class="result-detail-divider"
+          ></div>
+
+          ${detailHtml}
+
+          ${
+            isPaid
+              ? `
+                <div
+                  class="paid-label"
+                >
+                  송금 완료
+                </div>
+              `
+              : ""
+          }
+        </div>
       `;
 
     /* =========================
-         상세 내역
+         자세히 보기 버튼
+         → 상세만 열기
       ========================= */
 
-    const detail = document.createElement("div");
+    const detailToggle = card.querySelector(".detail-toggle");
 
-    detail.classList.add("result-detail");
+    detailToggle.addEventListener("click", function (event) {
+      event.stopPropagation();
 
-    result.items.forEach(function (detailItem) {
-      const row = document.createElement("div");
-
-      row.classList.add("detail-item");
-
-      /*
-            원래 통화와
-            기준 통화가 같음
-          */
-
-      if (detailItem.originalCurrency === baseCurrency) {
-        row.innerHTML = `
-              <span
-                class="detail-item-name"
-              >
-                · ${detailItem.name}
-              </span>
-
-              <span
-                class="detail-item-amount"
-              >
-                ${formatMoney(detailItem.convertedShare, baseCurrency)}
-              </span>
-            `;
-      } else {
-        /*
-            다른 통화
-          */
-        row.innerHTML = `
-              <span
-                class="detail-item-name"
-              >
-                · ${detailItem.name}
-              </span>
-
-              <span
-                class="detail-item-amount"
-              >
-
-                <span
-                  class="original-amount"
-                >
-                  ${formatMoney(
-                    detailItem.originalShare,
-                    detailItem.originalCurrency,
-                  )}
-                </span>
-
-                →
-
-                ${formatMoney(detailItem.convertedShare, baseCurrency)}
-
-              </span>
-            `;
-      }
-
-      detail.appendChild(row);
+      card.classList.toggle("open");
     });
 
     /* =========================
-         카드 선택
+         상세 영역 클릭 시
+         선택되지 않게 막기
       ========================= */
 
-    header.addEventListener("click", function (event) {
-      /*
-            화살표 버튼 클릭은
-            선택으로 처리하지 않음
-          */
+    const resultDetail = card.querySelector(".result-detail");
 
-      if (event.target.closest(".detail-toggle")) {
-        return;
-      }
+    resultDetail.addEventListener("click", function (event) {
+      event.stopPropagation();
+    });
 
+    /* =========================
+         카드 클릭
+         → 송금 대상 선택
+      ========================= */
+
+    card.addEventListener("click", function () {
       /*
-            나는 나한테
-            송금하는 사람이 아님
+            나 자신은 선택 불가
           */
 
       if (participant.isMe) {
@@ -346,71 +426,49 @@ function renderResults() {
       }
 
       /*
-            이미 완료된 사람도
-            다시 선택 못 함
+            이미 송금완료한 사람
+            다시 선택 불가
           */
 
       if (isPaid) {
         return;
       }
 
-      if (selectedParticipantIds.includes(participant.id)) {
-        selectedParticipantIds = selectedParticipantIds.filter(function (id) {
-          return id !== participant.id;
-        });
-      } else {
-        selectedParticipantIds.push(participant.id);
-      }
-
-      renderResults();
-
-      updateCompleteButton();
+      toggleParticipantSelection(participant.id);
     });
-
-    /* =========================
-         상세 펼치기
-      ========================= */
-
-    const toggleButton = header.querySelector(".detail-toggle");
-
-    toggleButton.addEventListener("click", function (event) {
-      event.stopPropagation();
-
-      card.classList.toggle("open");
-
-      if (card.classList.contains("open")) {
-        toggleButton.textContent = "⌃";
-      } else {
-        toggleButton.textContent = "⌄";
-      }
-    });
-
-    card.appendChild(header);
-
-    card.appendChild(detail);
 
     resultList.appendChild(card);
   });
+
+  updatePaymentButton();
 }
 
 /* =========================
    송금완료 버튼 상태
 ========================= */
 
-function updateCompleteButton() {
-  if (selectedParticipantIds.length === 0) {
+function updatePaymentButton() {
+  const selectedCount = selectedParticipantIds.length;
+
+  /* 아무도 선택 안 함 */
+
+  if (selectedCount === 0) {
     paymentCompleteButton.disabled = true;
 
     paymentCompleteButton.textContent = "송금완료";
-  } else {
-    paymentCompleteButton.disabled = false;
 
-    paymentCompleteButton.textContent = `${selectedParticipantIds.length}명 송금완료`;
+    return;
   }
+
+  /* 1명 이상 선택 */
+
+  paymentCompleteButton.disabled = false;
+
+  paymentCompleteButton.textContent = `${selectedCount}명 송금완료`;
 }
 
 /* =========================
-   송금 완료 처리
+   송금 완료
 ========================= */
 
 paymentCompleteButton.addEventListener("click", function () {
@@ -418,67 +476,55 @@ paymentCompleteButton.addEventListener("click", function () {
     return;
   }
 
-  selectedParticipantIds.forEach(function (id) {
-    if (!paidParticipantIds.includes(id)) {
-      paidParticipantIds.push(id);
-    }
-  });
+  const confirmed = confirm(
+    `${selectedParticipantIds.length}명의 송금을 완료 처리할까요?`,
+  );
 
-  /* =========================
-       송금 완료 저장
-    ========================= */
-
-  localStorage.setItem(paidParticipantsKey, JSON.stringify(paidParticipantIds));
-
-  /* =========================
-       홈 진행도 업데이트
-    ========================= */
-
-  updateRoomProgress();
-
-  /* 선택 초기화 */
-
-  selectedParticipantIds = [];
-
-  renderResults();
-
-  updateCompleteButton();
-});
-
-/* =========================
-   정산 진행도
-========================= */
-
-function updateRoomProgress() {
-  if (!currentRoom) {
+  if (!confirmed) {
     return;
   }
 
-  /*
-    나는 제외
+  const paidIds = getPaidParticipantIds();
 
-    예:
-    총 5명
-    → 실제 송금할 사람 4명
-  */
+  selectedParticipantIds.forEach(function (participantId) {
+    const alreadyPaid = paidIds.some(function (id) {
+      return String(id) === String(participantId);
+    });
 
-  const payableParticipants = participants.filter(function (participant) {
-    return !participant.isMe;
+    if (!alreadyPaid) {
+      paidIds.push(participantId);
+    }
   });
 
-  const total = payableParticipants.length;
+  savePaidParticipantIds(paidIds);
 
-  const current = paidParticipantIds.filter(function (id) {
-    return payableParticipants.some(function (participant) {
-      return participant.id === id;
+  selectedParticipantIds = [];
+
+  updateRoomProgress();
+
+  renderResults();
+});
+
+/* =========================
+   방 진행도
+========================= */
+
+function updateRoomProgress() {
+  const payableParticipants = participants.filter(function (participant) {
+    return participant.isMe !== true;
+  });
+
+  const paidIds = getPaidParticipantIds();
+
+  const completed = payableParticipants.filter(function (participant) {
+    return paidIds.some(function (id) {
+      return String(id) === String(participant.id);
     });
   }).length;
 
-  const progress = total === 0 ? 100 : Math.round((current / total) * 100);
+  const total = payableParticipants.length;
 
-  /* =========================
-     rooms 배열 업데이트
-  ========================= */
+  const percent = total === 0 ? 100 : Math.round((completed / total) * 100);
 
   const roomIndex = rooms.findIndex(function (room) {
     return String(room.id) === String(currentRoomId);
@@ -488,29 +534,69 @@ function updateRoomProgress() {
     return;
   }
 
-  rooms[roomIndex].current = current;
+  rooms[roomIndex].current = completed;
 
   rooms[roomIndex].total = total;
 
-  rooms[roomIndex].progress = progress;
+  rooms[roomIndex].progress = percent;
 
-  /*
-    모두 송금 완료됐다고 해서
-    방 자체를 바로 종료시키지는 않음.
+  rooms[roomIndex].resultCreated = true;
 
-    나중에 별도의
-    "정산 종료" 기능을 만들 수 있음.
-  */
+  rooms[roomIndex].mode = "quick";
+
+  rooms[roomIndex].resultPage = "17_quick-result.html";
+
+  rooms[roomIndex].isCompleted = total > 0 && completed >= total;
 
   localStorage.setItem("rooms", JSON.stringify(rooms));
+
+  localStorage.setItem(
+    `quickProgressSummary_${currentRoomId}_me`,
+
+    JSON.stringify({
+      roomId: currentRoomId,
+
+      participantId: "me",
+
+      completed: completed,
+
+      total: total,
+
+      percent: percent,
+    }),
+  );
 }
+
+/* =========================
+   홈으로
+========================= */
+
+homeButton.addEventListener("click", function () {
+  updateRoomProgress();
+
+  location.href = "05_home.html";
+});
+
+/* =========================
+   뒤로가기
+========================= */
+
+backButton.addEventListener("click", function () {
+  location.href = "05_home.html";
+});
+
+/* =========================
+   공유하기
+========================= */
+
+shareButton.addEventListener("click", function () {
+  alert("공유 기능은 백엔드 연결 후 추가할 예정입니다.");
+});
 
 /* =========================
    최초 실행
 ========================= */
 
-renderResults();
-
-updateCompleteButton();
-
 updateRoomProgress();
+
+renderResults();

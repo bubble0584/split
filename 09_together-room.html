@@ -1,11 +1,102 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+
+    <title>함께 정산하기</title>
+
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/together-room.css" />
   </head>
+
   <body>
-    <h1>여기는 함께 정산하기 입니다.</h1>
+    <main class="together-room-screen">
+      <header class="together-room-header">
+        <button
+          class="back-button"
+          id="backButton"
+          type="button"
+          aria-label="뒤로가기"
+        >
+          <img src="./image/뒤로가기.svg" alt="뒤로가기" />
+        </button>
+
+        <h1 id="roomTitle">정산방</h1>
+
+        <button class="delete-room-button" id="deleteRoomButton" type="button">
+          삭제
+        </button>
+      </header>
+
+      <!-- =====================
+         본문
+    ====================== -->
+      <section class="together-room-content">
+        <!-- 초대 카드 -->
+        <div class="invite-card">
+          <div class="invite-text">
+            <strong> 초대하기 </strong>
+
+            <span>
+              링크나 코드를 공유하여<br />
+              참여자를 초대하세요
+            </span>
+          </div>
+
+          <!-- 공유 버튼 -->
+          <button
+            class="share-button"
+            id="shareButton"
+            type="button"
+            aria-label="공유하기"
+          >
+            <img src="./image/share.svg" alt="공유하기" />
+          </button>
+        </div>
+
+        <!-- 참여자 -->
+        <section class="participant-section">
+          <h2>
+            참여자
+            <span id="participantCount"> (0/4) </span>
+          </h2>
+
+          <div class="participant-list" id="participantList"></div>
+        </section>
+      </section>
+
+      <!-- =====================
+         하단 버튼
+    ====================== -->
+      <div class="bottom-action">
+        <button class="primary-button" id="startItemButton" type="button">
+          항목 입력하기
+        </button>
+      </div>
+    </main>
+
+    <!-- =====================
+       공유 모달
+  ====================== -->
+    <div class="share-modal-overlay hidden" id="shareModal">
+      <div class="share-modal">
+        <!-- QR -->
+        <div class="qr-box" id="qrCode"></div>
+
+        <!-- 카카오 공유 -->
+        <button class="kakao-share-button" id="kakaoShareButton" type="button">
+          <span class="kakao-icon"></span>
+
+          카카오톡으로 공유하기
+        </button>
+      </div>
+    </div>
+
+    <!-- QR 생성 라이브러리 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script src="js/together-room.js"></script>
   </body>
 </html>

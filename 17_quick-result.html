@@ -12,28 +12,44 @@
 
   <body>
     <main class="app-screen quick-result-screen">
-      <!-- 상단 -->
+      <!-- =========================
+           상단 헤더
+      ========================== -->
+
       <header class="result-header">
-        <button type="button" class="back-button" onclick="history.back()">
-          ←
-        </button>
+        <button type="button" class="back-button" id="backButton">←</button>
 
         <h1>정산 결과</h1>
 
-        <button type="button" class="share-button">공유하기</button>
+        <button type="button" class="share-button" id="shareButton">
+          공유하기
+        </button>
       </header>
 
-      <!-- 정산 결과 카드들 -->
+      <!-- =========================
+           정산 결과 목록
+      ========================== -->
+
       <section class="result-list" id="resultList"></section>
 
-      <!-- 하단 -->
-      <button
-        type="button"
-        class="payment-complete-button"
-        id="paymentCompleteButton"
-      >
-        송금완료
-      </button>
+      <!-- =========================
+           하단 버튼
+      ========================== -->
+
+      <div class="result-bottom-actions">
+        <button
+          type="button"
+          class="payment-complete-button"
+          id="paymentCompleteButton"
+          disabled
+        >
+          송금완료
+        </button>
+
+        <button type="button" class="home-button" id="homeButton">
+          홈으로 돌아가기
+        </button>
+      </div>
     </main>
 
     <script src="js/quick-result.js"></script>

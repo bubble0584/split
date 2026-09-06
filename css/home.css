@@ -4,6 +4,7 @@
 
 body {
   margin: 0;
+
   background-color: #f5f5f5;
 }
 
@@ -17,6 +18,7 @@ body {
   height: 100dvh;
 
   display: flex;
+
   flex-direction: column;
 
   overflow: hidden;
@@ -36,7 +38,9 @@ body {
   height: 58px;
 
   display: flex;
+
   justify-content: space-between;
+
   align-items: center;
 
   padding: 0 16px;
@@ -56,6 +60,7 @@ body {
 
 .header-icons {
   display: flex;
+
   align-items: center;
 
   gap: 10px;
@@ -63,15 +68,19 @@ body {
 
 .icon-button {
   width: 34px;
+
   height: 34px;
 
   display: flex;
+
   justify-content: center;
+
   align-items: center;
 
   padding: 0;
 
   border: none;
+
   background: none;
 
   cursor: pointer;
@@ -79,6 +88,7 @@ body {
 
 .icon-button img {
   width: 25px;
+
   height: 25px;
 
   display: block;
@@ -96,6 +106,7 @@ body {
   min-height: 0;
 
   display: flex;
+
   flex-direction: column;
 
   padding: 14px 16px 0;
@@ -117,6 +128,7 @@ body {
   margin-bottom: 14px;
 
   border: 1px solid #52aead;
+
   border-radius: 10px;
 
   box-sizing: border-box;
@@ -128,6 +140,7 @@ body {
   margin: 0;
 
   font-size: 18px;
+
   font-weight: 700;
 }
 
@@ -149,6 +162,7 @@ body {
   margin-left: auto;
 
   display: flex;
+
   align-items: center;
 
   gap: 6px;
@@ -158,33 +172,40 @@ body {
   border-radius: 20px;
 
   background-color: #52aead;
+
   color: #ffffff;
 
   text-decoration: none;
 
   font-size: 13px;
+
   font-weight: 600;
 }
 
 .plus-small {
   width: 17px;
+
   height: 17px;
 
   display: flex;
+
   justify-content: center;
+
   align-items: center;
 
   border-radius: 50%;
 
   background-color: #ffffff;
+
   color: #52aead;
 
   font-size: 15px;
+
   font-weight: 700;
 }
 
 /* =========================
-   진행 중인 정산 영역
+   진행 중인 정산
 ========================= */
 
 .settlement-section {
@@ -193,12 +214,11 @@ body {
   min-height: 0;
 
   display: flex;
+
   flex-direction: column;
 
   overflow: hidden;
 }
-
-/* 제목은 고정 */
 
 .section-title {
   flex-shrink: 0;
@@ -206,12 +226,12 @@ body {
   margin: 0 0 8px;
 
   font-size: 14px;
+
   font-weight: 700;
 }
 
 /* =========================
    정산방 목록
-   여기만 스크롤
 ========================= */
 
 #settlementList {
@@ -220,6 +240,7 @@ body {
   min-height: 0;
 
   overflow-y: auto;
+
   overflow-x: hidden;
 
   padding-bottom: 10px;
@@ -240,26 +261,59 @@ body {
 ========================= */
 
 .settlement-card {
+  width: 100%;
+
   padding: 14px 16px;
 
   margin-bottom: 10px;
 
   border: 1px solid #dddddd;
+
   border-radius: 10px;
 
   box-sizing: border-box;
 
   background-color: #ffffff;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    transform 0.1s ease;
 }
+
+.settlement-card:active {
+  background-color: #fafafa;
+
+  transform: scale(0.995);
+}
+
+/* =========================
+   카드 제목
+========================= */
 
 .settlement-title {
   display: flex;
+
   justify-content: space-between;
+
   align-items: center;
 
   margin-bottom: 10px;
 
   font-size: 13px;
+}
+
+.settlement-room-name {
+  color: #222222;
+
+  font-weight: 500;
+}
+
+.settlement-progress-count {
+  color: #555555;
+
+  font-size: 12px;
 }
 
 /* =========================
@@ -268,11 +322,13 @@ body {
 
 .progress-bar {
   width: 100%;
+
   height: 35px;
 
   overflow: hidden;
 
   border: 1px solid #999999;
+
   border-radius: 9px;
 
   box-sizing: border-box;
@@ -281,17 +337,33 @@ body {
 }
 
 .progress-fill {
+  min-width: 0;
+
   height: 100%;
 
   display: flex;
+
   justify-content: center;
+
   align-items: center;
 
   background-color: #52aead;
+
   color: #ffffff;
 
   font-size: 12px;
+
   font-weight: 600;
+
+  transition: width 0.25s ease;
+}
+
+/* 진행도 0%일 때 */
+
+.progress-fill.zero {
+  color: #777777;
+
+  background-color: transparent;
 }
 
 /* =========================
@@ -304,10 +376,13 @@ body {
   position: relative;
 
   width: 100%;
+
   height: 72px;
 
   display: flex;
+
   justify-content: space-around;
+
   align-items: center;
 
   box-sizing: border-box;
@@ -317,10 +392,9 @@ body {
   z-index: 30;
 }
 
-/* 가운데 + 자리 */
-
 .nav-center-space {
   width: 80px;
+
   height: 72px;
 }
 
@@ -332,8 +406,11 @@ body {
   width: 80px;
 
   display: flex;
+
   flex-direction: column;
+
   justify-content: center;
+
   align-items: center;
 
   gap: 5px;
@@ -347,6 +424,7 @@ body {
 
 .nav-image {
   width: 25px;
+
   height: 25px;
 
   display: block;
@@ -355,35 +433,42 @@ body {
 }
 
 /* =========================
-   가운데 + 버튼
-   bottom-nav 밖에 있어야 함
+   가운데 +
 ========================= */
 
 .main-add-button {
   position: absolute;
 
   left: 50%;
+
   bottom: 9px;
 
   transform: translateX(-50%);
 
   width: 54px;
+
   height: 54px;
 
   display: flex;
+
   justify-content: center;
+
   align-items: center;
 
   padding: 0;
 
   border: none;
+
   border-radius: 50%;
 
   background-color: #52aead;
+
   color: #ffffff;
 
   font-size: 38px;
+
   font-weight: 300;
+
   line-height: 1;
 
   cursor: pointer;
@@ -419,6 +504,7 @@ body {
   position: absolute;
 
   left: 50%;
+
   bottom: 62px;
 
   transform: translateX(-50%);
@@ -426,7 +512,9 @@ body {
   width: 100%;
 
   display: flex;
+
   justify-content: center;
+
   align-items: center;
 
   padding-bottom: 70px;
@@ -438,8 +526,6 @@ body {
   z-index: 50;
 }
 
-/* 메뉴 텍스트 */
-
 .settlement-menu a,
 .settlement-menu button {
   position: relative;
@@ -449,20 +535,21 @@ body {
   padding: 0 12px;
 
   border: none;
+
   background: none;
 
   color: #ffffff;
 
   font-size: 13px;
+
   font-weight: 600;
 
   text-decoration: none;
+
   white-space: nowrap;
 
   cursor: pointer;
 }
-
-/* 메뉴 구분선 */
 
 .menu-divider {
   position: relative;
@@ -470,6 +557,7 @@ body {
   z-index: 53;
 
   width: 1px;
+
   height: 24px;
 
   background-color: rgba(255, 255, 255, 0.9);
@@ -485,11 +573,13 @@ body {
   position: absolute;
 
   left: 50%;
+
   top: 18px;
 
   transform: translateX(-50%);
 
   width: 230px;
+
   height: 125px;
 
   background: linear-gradient(

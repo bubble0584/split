@@ -2,9 +2,16 @@
    QUICK RESULT
 ========================= */
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
+
   background-color: #f5f5f5;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 .quick-result-screen {
@@ -12,32 +19,27 @@ body {
 
   min-height: 100vh;
 
-  padding-bottom: 95px;
+  padding-bottom: 145px;
 
-  box-sizing: border-box;
-
-  background-color: white;
-
-  overflow-y: auto;
+  background-color: #ffffff;
 }
 
 /* =========================
-   HEADER
+   상단 헤더
 ========================= */
 
 .result-header {
   height: 58px;
 
   display: grid;
-  grid-template-columns: 60px 1fr 60px;
+
+  grid-template-columns: 70px 1fr 70px;
 
   align-items: center;
 
   padding: 0 12px;
 
   border-bottom: 1px solid #eeeeee;
-
-  box-sizing: border-box;
 }
 
 .result-header h1 {
@@ -45,252 +47,359 @@ body {
 
   text-align: center;
 
+  color: #111111;
+
   font-size: 15px;
   font-weight: 600;
 }
 
 .back-button {
-  border: none;
-  background: none;
+  width: 40px;
+  height: 40px;
 
   padding: 0;
 
+  border: none;
+
+  background: none;
+
+  color: #111111;
+
   text-align: left;
 
-  font-size: 25px;
+  font-size: 28px;
 
   cursor: pointer;
 }
 
 .share-button {
-  border: none;
-  background: none;
-
   padding: 0;
+
+  border: none;
+
+  background: none;
 
   color: #52aead;
 
-  font-size: 11px;
+  text-align: right;
+
+  font-size: 12px;
   font-weight: 600;
 
   cursor: pointer;
 }
 
 /* =========================
-   RESULT LIST
+   결과 목록
 ========================= */
 
 .result-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+
   padding: 16px;
 }
 
 /* =========================
-   PARTICIPANT CARD
+   결과 카드
 ========================= */
 
 .result-card {
-  margin-bottom: 14px;
-
-  border: 1px solid #dddddd;
-  border-radius: 10px;
-
   overflow: hidden;
 
-  background-color: white;
+  border: 1px solid #dddddd;
 
-  transition: 0.15s;
+  border-radius: 10px;
+
+  background-color: #ffffff;
+
+  transition: 0.2s ease;
 }
-
-/* 선택된 카드 */
 
 .result-card.selected {
   border-color: #52aead;
-
-  box-shadow: 0 0 0 1px #52aead;
 }
 
-/* 송금 완료 카드 */
-
 .result-card.paid {
-  opacity: 0.5;
+  opacity: 0.6;
+
+  background-color: #fafafa;
 }
 
 /* =========================
-   CARD HEADER
+   카드 상단
 ========================= */
 
 .result-card-header {
-  min-height: 58px;
+  min-height: 72px;
 
   display: flex;
+
   align-items: center;
 
-  padding: 0 14px;
+  justify-content: space-between;
 
-  box-sizing: border-box;
+  gap: 12px;
+
+  padding: 14px 16px;
 
   cursor: pointer;
 }
 
-/* 색상 프로필 */
+.result-card-left {
+  min-width: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
 
 .result-profile {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
 
   flex-shrink: 0;
 
   border-radius: 50%;
+
+  background-color: #52aead;
 }
 
-/* 이름 */
+.result-name-wrap {
+  min-width: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+}
 
 .result-name {
-  margin-left: 10px;
-
-  flex: 1;
-
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.me-label {
-  margin-left: 3px;
-
-  color: #777;
-
-  font-size: 11px;
-}
-
-/* 금액 */
-
-.result-amount {
-  margin-right: 10px;
+  color: #222222;
 
   font-size: 13px;
   font-weight: 600;
+}
+
+.me-label {
+  color: #777777;
+
+  font-size: 10px;
+}
+
+/* =========================
+   오른쪽 금액
+========================= */
+
+.result-card-right {
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+.result-amount {
+  color: #111111;
+
+  font-size: 15px;
+  font-weight: 700;
 
   white-space: nowrap;
 }
 
-/* 펼치기 */
-
 .detail-toggle {
-  width: 28px;
-  height: 28px;
+  color: #111111;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-size: 18px;
 
-  border: none;
-  background: none;
+  transition: transform 0.2s ease;
+}
 
-  padding: 0;
-
-  font-size: 20px;
-  line-height: 1;
-
-  cursor: pointer;
+.result-card.open .detail-toggle {
+  transform: rotate(180deg);
 }
 
 /* =========================
-   DETAIL
+   상세 영역
 ========================= */
 
 .result-detail {
   display: none;
 
-  padding: 4px 16px 14px 48px;
-
-  border-top: 1px solid #eeeeee;
+  padding: 0 16px 14px;
 }
 
 .result-card.open .result-detail {
   display: block;
 }
 
-/* 한 항목 */
+.result-detail-divider {
+  height: 1px;
 
-.detail-item {
+  margin-bottom: 12px;
+
+  background-color: #eeeeee;
+}
+
+/* =========================
+   상세 항목
+========================= */
+
+.result-detail-item {
   display: flex;
+
+  align-items: flex-start;
+
   justify-content: space-between;
-  align-items: center;
 
-  gap: 10px;
+  gap: 12px;
 
-  padding: 7px 0;
+  padding: 8px 0;
+}
+
+.result-detail-left {
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.result-detail-name {
+  color: #333333;
 
   font-size: 11px;
 }
 
-.detail-item-name {
-  color: #333;
+.result-original-amount {
+  color: #999999;
+
+  font-size: 9px;
 }
 
-/* 오른쪽 금액 */
+.result-detail-amount {
+  flex-shrink: 0;
 
-.detail-item-amount {
-  color: #555;
+  color: #555555;
 
-  text-align: right;
-
-  white-space: nowrap;
-}
-
-/* 환산 전 금액 */
-
-.original-amount {
-  color: #999;
-
-  font-size: 10px;
-}
-
-/* 완료 표시 */
-
-.paid-label {
-  margin-left: 6px;
-
-  color: #52aead;
-
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
 }
 
 /* =========================
-   BOTTOM BUTTON
+   송금 완료 표시
 ========================= */
 
-.payment-complete-button {
+.paid-label {
+  margin-top: 8px;
+
+  color: #999999;
+
+  text-align: right;
+
+  font-size: 10px;
+}
+
+/* =========================
+   하단 버튼 영역
+========================= */
+
+.result-bottom-actions {
   position: fixed;
 
   left: 50%;
   bottom: 20px;
 
-  transform: translateX(-50%);
-
   width: calc(100% - 32px);
+
   max-width: 358px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  transform: translateX(-50%);
+}
+
+/* =========================
+   송금완료 버튼
+========================= */
+
+.payment-complete-button {
+  width: 100%;
 
   height: 46px;
 
   border: none;
+
   border-radius: 7px;
 
   background-color: #52aead;
 
-  color: white;
+  color: #ffffff;
 
   font-size: 13px;
   font-weight: 600;
 
   cursor: pointer;
-
-  z-index: 100;
 }
 
 .payment-complete-button:disabled {
-  background-color: #c5c5c5;
+  background-color: #cccccc;
+
+  color: #ffffff;
 
   cursor: default;
+}
+
+.payment-complete-button:not(:disabled):active {
+  background-color: #459b9a;
+}
+
+/* =========================
+   홈으로 돌아가기
+========================= */
+
+.home-button {
+  width: 100%;
+
+  height: 38px;
+
+  border: none;
+
+  background: none;
+
+  color: #777777;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.home-button:active {
+  color: #333333;
+}
+
+/* =========================
+   모바일 대응
+========================= */
+
+@media (max-width: 390px) {
+  .result-bottom-actions {
+    max-width: calc(100% - 32px);
+  }
 }

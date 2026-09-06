@@ -243,5 +243,5 @@ startSettlementButton.addEventListener("click", function () {
   sessionStorage.setItem("quickParticipants", JSON.stringify(participants));
 
   // 빠르게 정산 메인방으로 이동
-  location.href = "14_quick-main.html";
+  window.location.href = "14_quick-main.html?mode=quick";
 });

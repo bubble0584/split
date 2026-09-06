@@ -1,5 +1,5 @@
 /* =========================
-   QUICK MAIN
+   QUICK / TOGETHER MAIN
 ========================= */
 
 /* =========================
@@ -7,17 +7,13 @@
 ========================= */
 
 const roomTitle = document.getElementById("roomTitle");
-
 const editRoomButton = document.getElementById("editRoomButton");
 
 const itemName = document.getElementById("itemName");
-
 const itemAmount = document.getElementById("itemAmount");
 
 const currencySelect = document.getElementById("currencySelect");
-
 const currencySymbol = document.getElementById("currencySymbol");
-
 const exchangeRate = document.getElementById("exchangeRate");
 
 const participantButtons = document.getElementById("participantButtons");
@@ -27,6 +23,16 @@ const addItemButton = document.getElementById("addItemButton");
 const settlementItems = document.getElementById("settlementItems");
 
 const settleButton = document.getElementById("settleButton");
+
+/* =========================
+   현재 정산 모드
+========================= */
+
+const urlParams = new URLSearchParams(window.location.search);
+
+const mode = urlParams.get("mode") || "quick";
+
+console.log("현재 정산 모드:", mode);
 
 /* =========================
    방 정보
@@ -42,35 +48,144 @@ if (currentRoom) {
 
 /* =========================
    현재 방 ID
-
-   방마다 정산 항목을
-   따로 저장하기 위해 사용
 ========================= */
 
 const currentRoomId = currentRoom?.id || "default";
 
-const quickItemsKey = `quickItems_${currentRoomId}`;
+/* =========================
+   항목 저장 key
+
+   quick / together 분리
+========================= */
+
+const itemsKey =
+  mode === "together"
+    ? `togetherItems_${currentRoomId}`
+    : `quickItems_${currentRoomId}`;
 
 /* =========================
    참여자 가져오기
 ========================= */
 
-const participants =
-  JSON.parse(sessionStorage.getItem("quickParticipants")) || [];
+let participants = [];
+
+/* =========================
+   함께 정산
+========================= */
+
+if (mode === "together") {
+  const invitedParticipants =
+    JSON.parse(sessionStorage.getItem("togetherParticipants")) || [];
+
+  /*
+    현재 프론트 테스트에서는
+    로그인한 사용자를 host로 사용.
+
+    나중에 백엔드 연결 후
+    실제 로그인 사용자 정보로 교체.
+  */
+
+  const host = {
+    id: "host",
+    name: "나",
+    isMe: true,
+    isHost: true,
+    color: "#F5C04A",
+    profileImage: null,
+  };
+
+  participants = [host, ...invitedParticipants];
+
+  /* =========================
+   빠르게 정산
+========================= */
+} else {
+  participants = JSON.parse(sessionStorage.getItem("quickParticipants")) || [];
+}
+
+/* =========================
+   참여자 이름 표시
+========================= */
+
+function getParticipantDisplayName(participant) {
+  /*
+    함께 정산
+  */
+
+  if (mode === "together") {
+    if (participant.isHost) {
+      return `${participant.name} (방장)`;
+    }
+
+    return participant.name;
+  }
+
+  /*
+    빠르게 정산
+  */
+
+  if (participant.isMe) {
+    return `${participant.name} (나)`;
+  }
+
+  return participant.name;
+}
+
+/* =========================
+   현재 사용자
+========================= */
+
+const currentUser =
+  participants.find((participant) => participant.isMe) || null;
 
 /* =========================
    정산 항목 가져오기
-
-   방마다 다른 key 사용
 ========================= */
 
-let items = JSON.parse(sessionStorage.getItem(quickItemsKey)) || [];
+let items = JSON.parse(sessionStorage.getItem(itemsKey)) || [];
 
-/* 현재 선택된 참여자 */
+/* =========================
+   기존 together 항목 보정
+
+   payer 기능 추가 전에 만든
+   테스트 항목용.
+
+   나중에 백엔드 연결 후 제거 가능.
+========================= */
+
+if (mode === "together" && currentUser) {
+  let needsSave = false;
+
+  items = items.map(function (item) {
+    if (!item.payerId) {
+      needsSave = true;
+
+      return {
+        ...item,
+
+        payerId: currentUser.id,
+
+        payerName: getParticipantDisplayName(currentUser),
+      };
+    }
+
+    return item;
+  });
+
+  if (needsSave) {
+    sessionStorage.setItem(itemsKey, JSON.stringify(items));
+  }
+}
+
+/* =========================
+   현재 선택된 참여자
+========================= */
 
 let selectedParticipantIds = [];
 
-/* 현재 수정 중인 항목 ID */
+/* =========================
+   현재 수정 중인 항목 ID
+========================= */
 
 let editingItemId = null;
 
@@ -117,11 +232,14 @@ function renderParticipantButtons() {
     button.innerHTML = `
         <span
           class="participant-dot"
-          style="background-color: ${participant.color}"
+          style="
+            background-color:
+            ${participant.color}
+          "
         ></span>
 
         <span>
-          ${participant.isMe ? `${participant.name} (나)` : participant.name}
+          ${getParticipantDisplayName(participant)}
         </span>
       `;
 
@@ -170,7 +288,9 @@ currencySelect.addEventListener("change", function () {
 async function updateExchangeRate() {
   const currency = currencySelect.value;
 
-  /* KRW면 환율 표시 필요 없음 */
+  /*
+    KRW면 환율 표시 없음
+  */
 
   if (currency === "KRW") {
     exchangeRate.textContent = "";
@@ -223,7 +343,9 @@ addItemButton.addEventListener("click", function () {
 
   const currency = currencySelect.value;
 
-  /* 항목명 검사 */
+  /* =========================
+       항목명 검사
+    ========================= */
 
   if (name === "") {
     alert("항목명을 입력해 주세요.");
@@ -231,7 +353,9 @@ addItemButton.addEventListener("click", function () {
     return;
   }
 
-  /* 금액 검사 */
+  /* =========================
+       금액 검사
+    ========================= */
 
   if (!amount || amount <= 0) {
     alert("금액을 입력해 주세요.");
@@ -239,7 +363,9 @@ addItemButton.addEventListener("click", function () {
     return;
   }
 
-  /* 참여자 검사 */
+  /* =========================
+       참여자 검사
+    ========================= */
 
   if (selectedParticipantIds.length === 0) {
     alert("참여 인원을 선택해 주세요.");
@@ -264,6 +390,18 @@ addItemButton.addEventListener("click", function () {
       targetItem.currency = currency;
 
       targetItem.participantIds = [...selectedParticipantIds];
+
+      /*
+          together 항목인데
+          payer가 없는 예전 데이터라면
+          현재 사용자로 보정
+        */
+
+      if (mode === "together" && !targetItem.payerId && currentUser) {
+        targetItem.payerId = currentUser.id;
+
+        targetItem.payerName = getParticipantDisplayName(currentUser);
+      }
     }
 
     editingItemId = null;
@@ -271,9 +409,10 @@ addItemButton.addEventListener("click", function () {
     addItemButton.innerHTML = "<span>+</span> 항목 추가하기";
   } else {
     /* =========================
-       새 항목 추가
-    ========================= */
-    items.push({
+         새 항목 추가
+      ========================= */
+
+    const newItem = {
       id: Date.now(),
 
       name: name,
@@ -283,7 +422,19 @@ addItemButton.addEventListener("click", function () {
       currency: currency,
 
       participantIds: [...selectedParticipantIds],
-    });
+    };
+
+    /* =========================
+         together이면 결제자 저장
+      ========================= */
+
+    if (mode === "together" && currentUser) {
+      newItem.payerId = currentUser.id;
+
+      newItem.payerName = getParticipantDisplayName(currentUser);
+    }
+
+    items.push(newItem);
   }
 
   saveItems();
@@ -295,12 +446,10 @@ addItemButton.addEventListener("click", function () {
 
 /* =========================
    정산 항목 저장
-
-   ★ 방별 key 사용
 ========================= */
 
 function saveItems() {
-  sessionStorage.setItem(quickItemsKey, JSON.stringify(items));
+  sessionStorage.setItem(itemsKey, JSON.stringify(items));
 }
 
 /* =========================
@@ -329,16 +478,12 @@ function renderItems() {
   settlementItems.innerHTML = "";
 
   items.forEach(function (item) {
-    /* =========================
-         전체 wrapper
-      ========================= */
-
     const wrapper = document.createElement("div");
 
     wrapper.classList.add("settlement-item");
 
     /* =========================
-         수정 / 삭제 버튼 영역
+         수정 / 삭제 영역
       ========================= */
 
     const actions = document.createElement("div");
@@ -370,14 +515,16 @@ function renderItems() {
     actions.appendChild(deleteButton);
 
     /* =========================
-         실제 항목 내용
+         항목 내용
       ========================= */
 
     const content = document.createElement("div");
 
     content.classList.add("settlement-item-content");
 
-    /* 참여자 색상 동그라미 */
+    /* =========================
+         참여자 색상 점
+      ========================= */
 
     const participantDots = item.participantIds
       .map(function (id) {
@@ -392,21 +539,39 @@ function renderItems() {
         return `
                 <span
                   class="item-participant-dot"
-                  style="background-color: ${participant.color}"
+                  style="
+                    background-color:
+                    ${participant.color}
+                  "
                 ></span>
               `;
       })
       .join("");
 
-    /* 통화 기호 */
+    /* =========================
+         통화 기호
+      ========================= */
 
     const symbol = currencies[item.currency]?.symbol || "";
 
-    /* 실제 항목 HTML */
+    /* =========================
+         항목 이름
+
+         QUICK
+         밥
+
+         TOGETHER
+         밥 (나 (방장))
+      ========================= */
+
+    const displayItemName =
+      mode === "together" && item.payerName
+        ? `${item.name} (${item.payerName})`
+        : item.name;
 
     content.innerHTML = `
         <span class="item-name">
-          ${item.name}
+          ${displayItemName}
         </span>
 
         <div class="item-right">
@@ -436,7 +601,7 @@ function renderItems() {
 
     let isDragging = false;
 
-    /* 터치 시작 */
+    let didSwipe = false;
 
     content.addEventListener("pointerdown", function (event) {
       startX = event.clientX;
@@ -445,10 +610,10 @@ function renderItems() {
 
       isDragging = true;
 
+      didSwipe = false;
+
       content.setPointerCapture(event.pointerId);
     });
-
-    /* 움직이는 중 */
 
     content.addEventListener("pointermove", function (event) {
       if (!isDragging || startX === null) {
@@ -457,13 +622,9 @@ function renderItems() {
 
       currentX = event.clientX - startX;
 
-      /*
-            왼쪽으로만 이동
-
-            수정 64px
-            삭제 64px
-            총 128px
-          */
+      if (Math.abs(currentX) > 10) {
+        didSwipe = true;
+      }
 
       if (currentX < 0) {
         const moveX = Math.max(currentX, -128);
@@ -471,8 +632,6 @@ function renderItems() {
         content.style.transform = `translateX(${moveX}px)`;
       }
     });
-
-    /* 터치 끝 */
 
     content.addEventListener("pointerup", function () {
       if (!isDragging) {
@@ -492,8 +651,6 @@ function renderItems() {
       isDragging = false;
     });
 
-    /* 터치 취소 */
-
     content.addEventListener("pointercancel", function () {
       startX = null;
 
@@ -503,7 +660,19 @@ function renderItems() {
     });
 
     /* =========================
-         수정 버튼
+         항목 상세 페이지 이동
+      ========================= */
+
+    content.addEventListener("click", function () {
+      if (didSwipe) {
+        return;
+      }
+
+      location.href = `18_quick-item-detail.html?mode=${mode}&itemId=${item.id}`;
+    });
+
+    /* =========================
+         수정
       ========================= */
 
     editButton.addEventListener("click", function () {
@@ -511,7 +680,7 @@ function renderItems() {
     });
 
     /* =========================
-         삭제 버튼
+         삭제
       ========================= */
 
     deleteButton.addEventListener("click", function () {
@@ -524,11 +693,6 @@ function renderItems() {
       items = items.filter(function (targetItem) {
         return targetItem.id !== item.id;
       });
-
-      /*
-            삭제했으면
-            수정 상태도 전부 초기화
-          */
 
       editingItemId = null;
 
@@ -564,11 +728,7 @@ function editItem(id) {
     return;
   }
 
-  /* 수정 중인 항목 기억 */
-
   editingItemId = id;
-
-  /* 기존 내용 넣기 */
 
   itemName.value = item.name;
 
@@ -577,8 +737,6 @@ function editItem(id) {
   currencySelect.value = item.currency;
 
   currencySymbol.textContent = currencies[item.currency].symbol;
-
-  /* 참여자 다시 선택 */
 
   selectedParticipantIds = [...item.participantIds];
 
@@ -594,15 +752,9 @@ function editItem(id) {
       }
     });
 
-  /* 버튼 수정 모드 */
-
   addItemButton.textContent = "수정 완료";
 
-  /* 환율 다시 표시 */
-
   updateExchangeRate();
-
-  /* 입력창 위치로 이동 */
 
   document.querySelector(".item-input-card").scrollIntoView({
     behavior: "smooth",
@@ -629,11 +781,11 @@ settleButton.addEventListener("click", function () {
     return;
   }
 
-  location.href = "16_quick-summary.html";
+  location.href = `16_quick-summary.html?mode=${mode}`;
 });
 
 /* =========================
-   초기 환율 표시
+   초기 환율
 ========================= */
 
 updateExchangeRate();

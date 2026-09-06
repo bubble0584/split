@@ -1,0 +1,656 @@
+/* =========================
+   TOGETHER RESULT
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+
+  background-color: #f5f5f5;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.together-result-screen {
+  position: relative;
+
+  min-height: 100vh;
+
+  padding-bottom: 90px;
+
+  background-color: #ffffff;
+}
+
+/* =========================
+   공통 hidden
+========================= */
+
+.hidden {
+  display: none !important;
+}
+
+/* =========================
+   상단 헤더
+========================= */
+
+.result-header {
+  height: 58px;
+
+  display: grid;
+
+  grid-template-columns: 60px 1fr 60px;
+
+  align-items: center;
+
+  padding: 0 12px;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+.result-header h1 {
+  margin: 0;
+
+  text-align: center;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  color: #111111;
+}
+
+.back-button {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding: 0;
+
+  border: none;
+
+  background: none;
+
+  cursor: pointer;
+}
+
+.back-button img {
+  width: 22px;
+  height: 22px;
+
+  display: block;
+}
+
+.header-space {
+  width: 40px;
+}
+
+/* =========================
+   참여자 결과 목록
+========================= */
+
+.result-participant-section {
+  padding: 18px 16px;
+}
+
+.result-participant-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+/* =========================
+   사람 카드
+========================= */
+
+.result-person-card {
+  width: 100%;
+
+  min-height: 72px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 14px;
+
+  padding: 14px 16px;
+
+  border: 1px solid #dddddd;
+
+  border-radius: 10px;
+
+  background-color: #ffffff;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.result-person-card:active {
+  background-color: #fafafa;
+}
+
+.result-person-card.current-user {
+  border-color: #52aead;
+}
+
+/* 왼쪽 */
+
+.result-person-left {
+  min-width: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.result-person-profile {
+  width: 32px;
+  height: 32px;
+
+  flex-shrink: 0;
+
+  object-fit: contain;
+}
+
+.result-person-info {
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.result-person-name {
+  color: #222222;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.result-person-progress {
+  color: #999999;
+
+  font-size: 10px;
+}
+
+/* 오른쪽 상태 */
+
+.result-person-status {
+  flex-shrink: 0;
+
+  text-align: right;
+
+  color: #555555;
+
+  font-size: 11px;
+}
+
+.result-person-status.send {
+  color: #e16c5b;
+}
+
+.result-person-status.receive {
+  color: #52aead;
+}
+
+.result-person-status.done {
+  color: #999999;
+}
+
+/* =========================
+   개인 상세 화면
+========================= */
+
+.person-detail-view {
+  padding: 0 16px 24px;
+}
+
+/* =========================
+   상세 헤더
+========================= */
+
+.person-detail-header {
+  height: 56px;
+
+  display: grid;
+
+  grid-template-columns: 44px 1fr 44px;
+
+  align-items: center;
+}
+
+.person-detail-header h2 {
+  margin: 0;
+
+  text-align: center;
+
+  color: #111111;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.detail-back-button {
+  width: 40px;
+  height: 40px;
+
+  padding: 0;
+
+  border: none;
+
+  background: none;
+
+  text-align: left;
+
+  color: #111111;
+
+  font-size: 24px;
+
+  cursor: pointer;
+}
+
+.detail-header-space {
+  width: 40px;
+}
+
+/* =========================
+   개인 진행도 카드
+========================= */
+
+.personal-progress-card {
+  margin-bottom: 18px;
+
+  padding: 16px;
+
+  border: 1px solid #dddddd;
+
+  border-radius: 10px;
+
+  background-color: #ffffff;
+}
+
+.personal-progress-top {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 12px;
+}
+
+.personal-progress-label {
+  color: #222222;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.personal-progress-percent {
+  color: #52aead;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* 진행도 바 */
+
+.personal-progress-bar {
+  width: 100%;
+  height: 7px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background-color: #eeeeee;
+}
+
+.personal-progress-fill {
+  width: 0%;
+  height: 100%;
+
+  border-radius: 999px;
+
+  background-color: #52aead;
+
+  transition: width 0.25s ease;
+}
+
+.personal-progress-text {
+  margin: 9px 0 0;
+
+  color: #999999;
+
+  font-size: 10px;
+}
+
+/* =========================
+   송금 / 받을 돈 영역
+========================= */
+
+.transfer-section,
+.receive-section {
+  margin-bottom: 20px;
+}
+
+.transfer-section h3,
+.receive-section h3 {
+  margin: 0 0 12px;
+
+  color: #222222;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.transfer-list,
+.receive-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+/* =========================
+   송금 카드
+========================= */
+
+.transfer-card {
+  padding: 16px;
+
+  border: 1px solid #dddddd;
+
+  border-radius: 10px;
+
+  background-color: #ffffff;
+}
+
+.transfer-card.completed {
+  opacity: 0.62;
+
+  background-color: #fafafa;
+}
+
+.transfer-card-top {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-bottom: 15px;
+}
+
+.transfer-target {
+  color: #222222;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.transfer-amount {
+  color: #111111;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+/* =========================
+   계좌 정보
+========================= */
+
+.account-box {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-bottom: 14px;
+
+  padding: 11px 12px;
+
+  border: 1px solid #e5e5e5;
+
+  border-radius: 8px;
+
+  background-color: #fafafa;
+}
+
+.account-info {
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.account-bank {
+  color: #444444;
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.account-number {
+  overflow: hidden;
+
+  color: #555555;
+
+  font-size: 10px;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.copy-account-button {
+  flex-shrink: 0;
+
+  padding: 6px 9px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  background-color: #eeeeee;
+
+  color: #555555;
+
+  font-size: 10px;
+
+  cursor: pointer;
+}
+
+/* =========================
+   송금완료
+========================= */
+
+.transfer-complete-button {
+  width: 100%;
+
+  height: 42px;
+
+  border: none;
+
+  border-radius: 7px;
+
+  background-color: #52aead;
+
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.transfer-complete-button.completed {
+  background-color: #dddddd;
+
+  color: #777777;
+
+  cursor: default;
+}
+
+/* =========================
+   받을 돈 카드
+========================= */
+
+.receive-card {
+  padding: 16px;
+
+  border: 1px solid #dddddd;
+
+  border-radius: 10px;
+
+  background-color: #ffffff;
+}
+
+.receive-card-top {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+.receive-from {
+  color: #222222;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.receive-amount {
+  color: #52aead;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+/* =========================
+   보낼 돈 없음
+========================= */
+
+.empty-transfer-message {
+  padding: 22px 16px;
+
+  border: 1px solid #dddddd;
+
+  border-radius: 10px;
+
+  color: #999999;
+
+  text-align: center;
+
+  font-size: 12px;
+}
+
+/* =========================
+   정산 완료
+========================= */
+
+.settlement-complete-card {
+  margin-top: 18px;
+
+  padding: 20px 16px;
+
+  border-radius: 10px;
+
+  background-color: #f3fbfb;
+
+  text-align: center;
+}
+
+.settlement-complete-card strong {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #52aead;
+
+  font-size: 14px;
+}
+
+.settlement-complete-card p {
+  margin: 0;
+
+  color: #777777;
+
+  font-size: 11px;
+}
+
+/* =========================
+   하단 버튼
+========================= */
+
+.result-confirm-button {
+  position: fixed;
+
+  left: 50%;
+  bottom: 20px;
+
+  width: calc(100% - 32px);
+
+  max-width: 358px;
+
+  height: 46px;
+
+  transform: translateX(-50%);
+
+  border: none;
+
+  border-radius: 7px;
+
+  background-color: #52aead;
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.result-confirm-button:active {
+  background-color: #459b9a;
+}
+
+/* =========================
+   모바일 대응
+========================= */
+
+@media (max-width: 390px) {
+  .result-confirm-button {
+    max-width: calc(100% - 32px);
+  }
+}

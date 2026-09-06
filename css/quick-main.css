@@ -563,3 +563,184 @@ body {
 
   box-sizing: border-box;
 }
+
+/* =========================
+   항목 상세 Overlay
+========================= */
+
+.item-detail-overlay {
+  position: fixed;
+
+  top: 0;
+  bottom: 0;
+
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 100%;
+  max-width: 390px;
+
+  background-color: rgba(0, 0, 0, 0.45);
+
+  z-index: 1000;
+}
+
+.item-detail-overlay.hidden {
+  display: none;
+}
+
+/* =========================
+   상세 Bottom Sheet
+========================= */
+
+.item-detail-sheet {
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  min-height: 72vh;
+
+  padding: 0 16px 30px;
+
+  background-color: #ffffff;
+
+  border-radius: 20px 20px 0 0;
+
+  transition: transform 0.25s ease;
+}
+
+/* =========================
+   핸들
+========================= */
+
+.detail-sheet-handle-area {
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  touch-action: none;
+  cursor: grab;
+}
+
+.detail-sheet-handle {
+  width: 52px;
+  height: 4px;
+
+  background-color: #d9d9d9;
+
+  border-radius: 999px;
+}
+
+/* =========================
+   항목명
+========================= */
+
+.detail-sheet-title {
+  margin: 4px 0 28px;
+
+  text-align: center;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* =========================
+   결제자
+========================= */
+
+.sheet-payer-row {
+  display: flex;
+  align-items: center;
+
+  margin: 0 12px 22px;
+}
+
+.sheet-payer-row.hidden {
+  display: none;
+}
+
+.sheet-profile {
+  width: 30px;
+  height: 30px;
+
+  margin-right: 12px;
+
+  object-fit: contain;
+
+  flex-shrink: 0;
+}
+
+.sheet-payer-name {
+  flex: 1;
+
+  font-size: 14px;
+}
+
+.sheet-payer-amount {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* =========================
+   Quick 모드 총금액
+========================= */
+
+.sheet-quick-amount {
+  margin: -12px 0 24px;
+
+  text-align: center;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sheet-quick-amount.hidden {
+  display: none;
+}
+
+/* =========================
+   참여자 카드
+========================= */
+
+.sheet-participant-card {
+  padding: 18px 16px;
+
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+}
+
+.sheet-participant-card h3 {
+  margin: 0 0 18px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sheet-participant-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 15px;
+}
+
+.sheet-participant-row {
+  display: flex;
+  align-items: center;
+}
+
+.sheet-participant-name {
+  flex: 1;
+
+  margin-left: 12px;
+
+  font-size: 13px;
+}
+
+.sheet-participant-amount {
+  font-size: 13px;
+  font-weight: 500;
+}
