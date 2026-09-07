@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/notifications.css" />
+
+    <title>알림 | 스플릿</title>
+  </head>
+
+  <body>
+    <main class="app-screen notification-screen">
+      <header class="notification-header">
+        <button type="button" class="back-button" id="backButton">
+          <img src="image/back.svg" alt="뒤로가기" />
+        </button>
+
+        <h1>알림</h1>
+
+        <button type="button" class="read-all-button" id="readAllButton">
+          모두 읽음
+        </button>
+      </header>
+
+      <!-- =========================
+           알림 목록
+      ========================== -->
+
+      <section class="notification-list" id="notificationList"></section>
+
+      <!-- =========================
+           빈 알림
+      ========================== -->
+
+      <section class="empty-notification hidden" id="emptyNotification">
+        <strong> 새로운 알림이 없어요. </strong>
+
+        <p>정산 관련 소식이 생기면 여기에 표시돼요.</p>
+      </section>
+    </main>
+
+    <script src="js/notifications.js"></script>
+  </body>
+</html>

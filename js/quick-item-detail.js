@@ -275,7 +275,7 @@ function renderDetail() {
               `
               : `
                 <img
-                  src="./image/프로필.svg"
+                  src="./image/profile.svg"
                   alt="기본 프로필"
                 />
               `

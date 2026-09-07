@@ -238,5 +238,17 @@ settlementOverlay.addEventListener("click", function (event) {
 ========================= */
 
 joinRoomButton.addEventListener("click", function () {
-  alert("기존 정산방 참여하기는 아직 연결 전입니다.");
+  alert("아직 안함.");
 });
+
+/* =========================
+   알림 페이지 이동
+========================= */
+
+const notificationButton = document.getElementById("notificationButton");
+
+if (notificationButton) {
+  notificationButton.addEventListener("click", function () {
+    location.href = "20_notifications.html";
+  });
+}

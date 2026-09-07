@@ -58,10 +58,7 @@
 
         <!-- 참여자 -->
         <section class="participant-section">
-          <h2>
-            참여자
-            <span id="participantCount"> (0/4) </span>
-          </h2>
+          <h2 id="participantCount">참여자</h2>
 
           <div class="participant-list" id="participantList"></div>
         </section>
@@ -77,25 +74,51 @@
       </div>
     </main>
 
-    <!-- =====================
-       공유 모달
-  ====================== -->
-    <div class="share-modal-overlay hidden" id="shareModal">
-      <div class="share-modal">
-        <!-- QR -->
-        <div class="qr-box" id="qrCode"></div>
+    <div class="invite-overlay hidden" id="inviteOverlay">
+      <div class="invite-modal">
+        <button
+          type="button"
+          class="invite-close-button"
+          id="inviteCloseButton"
+        >
+          ×
+        </button>
 
-        <!-- 카카오 공유 -->
-        <button class="kakao-share-button" id="kakaoShareButton" type="button">
-          <span class="kakao-icon"></span>
+        <h2>정산방 초대하기</h2>
 
-          카카오톡으로 공유하기
+        <p class="invite-description">
+          링크를 공유하거나 참여 코드를 알려주세요.
+        </p>
+
+        <div class="invite-field">
+          <label>초대 링크</label>
+
+          <div class="invite-value-box">
+            <span id="inviteLink"> https://split.app/join/58321 </span>
+
+            <button type="button" class="copy-button" id="copyLinkButton">
+              복사
+            </button>
+          </div>
+        </div>
+
+        <div class="invite-field">
+          <label>참여 코드</label>
+
+          <div class="invite-value-box code-box">
+            <strong id="inviteCode">58321</strong>
+
+            <button type="button" class="copy-button" id="copyCodeButton">
+              복사
+            </button>
+          </div>
+        </div>
+
+        <button type="button" class="share-link-button" id="shareLinkButton">
+          링크 공유하기
         </button>
       </div>
     </div>
-
-    <!-- QR 생성 라이브러리 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <script src="js/together-room.js"></script>
   </body>

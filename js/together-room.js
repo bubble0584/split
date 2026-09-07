@@ -1,261 +1,134 @@
-const MAX_PARTICIPANTS = 4;
+const inviteOverlay = document.getElementById("inviteOverlay");
 
-/* =========================
-   요소
-========================= */
+const inviteCloseButton = document.getElementById("inviteCloseButton");
 
-const participantList = document.getElementById("participantList");
+const copyLinkButton = document.getElementById("copyLinkButton");
 
-const participantCount = document.getElementById("participantCount");
+const copyCodeButton = document.getElementById("copyCodeButton");
+
+const shareLinkButton = document.getElementById("shareLinkButton");
+
+const inviteLink = document.getElementById("inviteLink");
+
+const inviteCode = document.getElementById("inviteCode");
 
 const shareButton = document.getElementById("shareButton");
 
-const shareModal = document.getElementById("shareModal");
-
-const qrCode = document.getElementById("qrCode");
-
-const kakaoShareButton = document.getElementById("kakaoShareButton");
-
-const backButton = document.getElementById("backButton");
-
-const deleteRoomButton = document.getElementById("deleteRoomButton");
-
-const startItemButton = document.getElementById("startItemButton");
-
-const roomTitle = document.getElementById("roomTitle");
-
-const rooms = JSON.parse(localStorage.getItem("rooms")) || [];
-
-const currentRoom = rooms.length > 0 ? rooms[rooms.length - 1] : null;
-
-if (currentRoom) {
-  roomTitle.textContent = currentRoom.name || "정산방";
-}
-
 /* =========================
-   현재 사용자가 방장인지
+   임시 참여 코드
 ========================= */
 
-const isCurrentUserHost = true;
+const tempJoinCode = "58321";
+
+const tempInviteLink = `https://split.app/join/${tempJoinCode}`;
 
 /* =========================
-   참여자
+   화면 표시
 ========================= */
 
-let participants = [];
+inviteCode.textContent = tempJoinCode;
+
+inviteLink.textContent = tempInviteLink;
 
 /* =========================
-   랜덤 색
+   초대 모달 열기
 ========================= */
 
-const participantColors = [
-  "#52B8B8",
-  "#F3A35C",
-  "#7B8DEB",
-  "#B879D9",
-  "#E87575",
-  "#70B77E",
-  "#E5B94B",
-  "#659DBD",
-];
-
-function getRandomColor() {
-  const index = Math.floor(Math.random() * participantColors.length);
-
-  return participantColors[index];
-}
-
-/* =========================
-   참여자 출력
-========================= */
-
-function renderParticipants() {
-  participantList.innerHTML = "";
-
-  participants.forEach((participant) => {
-    const item = document.createElement("div");
-
-    item.className = "participant-item";
-
-    const deleteButton = isCurrentUserHost
-      ? `
-            <button
-              class="remove-participant-button"
-              data-id="${participant.id}"
-              type="button"
-            >
-              삭제
-            </button>
-          `
-      : "";
-
-    item.innerHTML = `
-
-        <div
-          class="participant-avatar"
-          style="
-            --participant-color:
-            ${participant.color}
-          "
-        >
-
-          ${
-            participant.profileImage
-              ? `
-                <img
-                  src="${participant.profileImage}"
-                  alt="${participant.name}"
-                />
-              `
-              : "👤"
-          }
-
-        </div>
-
-
-        <div class="participant-name">
-          ${participant.name}
-        </div>
-
-
-        ${deleteButton}
-
-      `;
-
-    participantList.appendChild(item);
-  });
-
-  participantCount.textContent = `(${participants.length}/${MAX_PARTICIPANTS})`;
-
-  addRemoveParticipantEvents();
-}
-
-/* =========================
-   참여자 삭제
-========================= */
-
-function addRemoveParticipantEvents() {
-  const buttons = document.querySelectorAll(".remove-participant-button");
-
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const id = Number(button.dataset.id);
-
-      const participant = participants.find((person) => person.id === id);
-
-      if (!participant) return;
-
-      const confirmed = confirm(`${participant.name}님을 삭제하시겠습니까?`);
-
-      if (!confirmed) return;
-
-      participants = participants.filter((person) => person.id !== id);
-
-      renderParticipants();
-    });
-  });
-}
-
-/* =========================
-   공유 모달
-========================= */
-
-const roomInviteUrl = window.location.origin + "/join-room.html?room=1234";
-
-shareButton.addEventListener("click", () => {
-  /*
-      기존 QR 삭제
-    */
-
-  qrCode.innerHTML = "";
-
-  /*
-      QR 새로 생성
-    */
-
-  new QRCode(qrCode, {
-    text: roomInviteUrl,
-    width: 132,
-    height: 132,
-  });
-
-  /*
-      모달 표시
-    */
-
-  shareModal.classList.remove("hidden");
+shareButton.addEventListener("click", function () {
+  inviteOverlay.classList.remove("hidden");
 });
 
 /* =========================
-   모달 바깥 클릭하면 닫기
+   초대 모달 닫기
 ========================= */
 
-shareModal.addEventListener("click", (event) => {
-  if (
-    event.target === shareModal ||
-    event.target.classList.contains("share-modal")
-  ) {
-    shareModal.classList.add("hidden");
+inviteCloseButton.addEventListener("click", function () {
+  inviteOverlay.classList.add("hidden");
+});
+
+/* 바깥 영역 눌러도 닫기 */
+
+inviteOverlay.addEventListener("click", function (event) {
+  if (event.target === inviteOverlay) {
+    inviteOverlay.classList.add("hidden");
   }
 });
 
 /* =========================
-   카카오 공유 버튼
+   링크 복사
 ========================= */
 
-kakaoShareButton.addEventListener("click", () => {
-  /*
-      실제 카카오톡 공유는
-      카카오 JavaScript SDK 및
-      앱 키 연결이 필요함.
+copyLinkButton.addEventListener("click", async function () {
+  try {
+    await navigator.clipboard.writeText(tempInviteLink);
 
-      지금은 프론트 UI만 구현.
-    */
-
-  alert("카카오톡 공유 기능은 추후 연결 예정입니다.");
+    copyLinkButton.textContent = "복사됨";
+  } catch (error) {
+    alert("링크 복사 기능은 배포 환경에서 확인해주세요.");
+  }
 });
 
 /* =========================
-   뒤로가기
+   참여 코드 복사
 ========================= */
 
-backButton.addEventListener("click", () => {
-  history.back();
+copyCodeButton.addEventListener("click", async function () {
+  try {
+    await navigator.clipboard.writeText(tempJoinCode);
+
+    copyCodeButton.textContent = "복사됨";
+  } catch (error) {
+    alert("참여 코드 복사 기능은 배포 환경에서 확인해주세요.");
+  }
 });
 
 /* =========================
-   방 삭제
+   링크 공유
 ========================= */
 
-deleteRoomButton.addEventListener("click", () => {
-  if (!isCurrentUserHost) {
+shareLinkButton.addEventListener("click", async function () {
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: "스플릿 정산방 초대",
+
+        text: "정산방에 참여해 주세요.",
+
+        url: tempInviteLink,
+      });
+    } catch (error) {
+      console.log("공유 취소", error);
+    }
+
     return;
   }
 
-  const confirmed = confirm("방을 삭제하시겠습니까?");
+  try {
+    await navigator.clipboard.writeText(tempInviteLink);
 
-  if (!confirmed) return;
-
-  window.location.href = "05_home.html";
+    alert("초대 링크가 복사되었습니다.");
+  } catch (error) {
+    alert("공유 기능은 배포 환경에서 확인해주세요.");
+  }
 });
 
 /* =========================
    항목 입력하기
 ========================= */
 
-startItemButton.addEventListener("click", () => {
-  //   if (participants.length === 0) {
-  //     alert("먼저 참여자를 초대해주세요.");
-  //     return;
-  //   }
+const startItemButton = document.getElementById("startItemButton");
 
-  sessionStorage.setItem("togetherParticipants", JSON.stringify(participants));
+startItemButton.addEventListener("click", function () {
+  const params = new URLSearchParams(window.location.search);
+  const roomId =
+    params.get("roomId") || sessionStorage.getItem("currentRoomId");
 
-  window.location.href = "14_quick-main.html?mode=together";
+  if (!roomId) {
+    alert("정산방 정보를 찾을 수 없습니다.");
+    return;
+  }
+
+  sessionStorage.setItem("currentRoomId", roomId);
+
+  window.location.href = `14_quick-main.html?roomId=${roomId}&mode=together`;
 });
-
-/* =========================
-   최초 실행
-========================= */
-
-renderParticipants();

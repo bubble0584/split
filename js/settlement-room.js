@@ -16,12 +16,6 @@ const emptyRoomMessage = document.getElementById("emptyRoomMessage");
 
 const backButton = document.getElementById("backButton");
 
-const mainAddButton = document.getElementById("mainAddButton");
-
-const settlementOverlay = document.getElementById("settlementOverlay");
-
-const joinRoomButton = document.getElementById("joinRoomButton");
-
 /* =========================
    rooms
 ========================= */
@@ -270,32 +264,6 @@ showHistoryCheckbox.addEventListener("change", function () {
 
 backButton.addEventListener("click", function () {
   location.href = "05_home.html";
-});
-
-/* =========================
-   + 버튼
-========================= */
-
-mainAddButton.addEventListener("click", function () {
-  settlementOverlay.classList.toggle("active");
-});
-
-/* =========================
-   오버레이 닫기
-========================= */
-
-settlementOverlay.addEventListener("click", function (event) {
-  if (event.target === settlementOverlay) {
-    settlementOverlay.classList.remove("active");
-  }
-});
-
-/* =========================
-   기존 방 참여
-========================= */
-
-joinRoomButton.addEventListener("click", function () {
-  alert("기존 정산방 참여하기는 백엔드 연결 후 추가할 예정입니다.");
 });
 
 /* =========================

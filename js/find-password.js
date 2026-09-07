@@ -1,148 +1,180 @@
+/* =========================
+   비밀번호 찾기
+========================= */
+
 const userId = document.getElementById("userId");
-const phone = document.getElementById("phone");
+
+const email = document.getElementById("email");
+
 const verificationCode = document.getElementById("verificationCode");
 
 const sendCodeButton = document.getElementById("sendCodeButton");
+
 const verifyCodeButton = document.getElementById("verifyCodeButton");
+
+const verificationMessage = document.getElementById("verificationMessage");
+
 const nextButton = document.getElementById("nextButton");
 
-const findPasswordMessage = document.getElementById("findPasswordMessage");
+let isEmailVerified = false;
 
-// 실제 휴대폰 인증 완료 여부
-let isPhoneVerified = false;
+/* =========================
+   이메일 형식
+========================= */
 
-// ===============================
-// 휴대폰 번호 정리
-// 010-1234-5678 → 01012345678
-// ===============================
-
-function normalizePhoneNumber(phoneNumber) {
-  return phoneNumber.replace(/-/g, "");
+function isValidEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-// ===============================
-// 인증번호 발송
-// ===============================
+/* =========================
+   ID / 이메일 변경 시 인증 초기화
+========================= */
+
+function resetVerification() {
+  isEmailVerified = false;
+
+  verificationCode.value = "";
+
+  verificationCode.disabled = true;
+
+  verifyCodeButton.disabled = true;
+
+  verifyCodeButton.textContent = "인증확인";
+
+  verifyCodeButton.classList.remove("active");
+
+  verificationMessage.textContent = "";
+
+  verificationMessage.className = "verification-message";
+}
+
+userId.addEventListener("input", resetVerification);
+
+email.addEventListener("input", resetVerification);
+
+/* =========================
+   인증번호 보내기
+========================= */
 
 sendCodeButton.addEventListener("click", function () {
-  const userIdValue = userId.value.trim();
+  const idValue = userId.value.trim();
 
-  const phoneValue = normalizePhoneNumber(phone.value.trim());
+  const emailValue = email.value.trim();
 
-  // ID 확인
-  if (!userIdValue) {
-    findPasswordMessage.textContent = "ID를 입력해 주세요.";
-
+  if (!idValue) {
+    alert("ID를 입력해주세요.");
     return;
   }
 
-  // 휴대폰 번호 확인
-  if (!phoneValue) {
-    findPasswordMessage.textContent = "휴대폰 번호를 입력해 주세요.";
-
+  if (!emailValue) {
+    alert("이메일 주소를 입력해주세요.");
     return;
   }
 
-  // 숫자 10~11자리 확인
-  const phoneRegex = /^[0-9]{10,11}$/;
-
-  if (!phoneRegex.test(phoneValue)) {
-    findPasswordMessage.textContent = "올바른 휴대폰 번호를 입력해 주세요.";
-
+  if (!isValidEmail(emailValue)) {
+    alert("올바른 이메일 주소를 입력해주세요.");
     return;
   }
-
-  findPasswordMessage.textContent = "";
 
   /*
-    ===============================
-    나중에 백엔드 연결
-    ===============================
+      백엔드 연결 전 임시 회원 확인
+    */
 
-    여기서 백엔드가
+  const signupUser = JSON.parse(localStorage.getItem("signupUser"));
 
-    1. 입력한 ID가 존재하는지 확인
-    2. ID와 휴대폰 번호가 일치하는지 확인
-    3. 인증번호 생성
-    4. 실제 문자 발송
+  if (signupUser) {
+    if (signupUser.id !== idValue || signupUser.email !== emailValue) {
+      alert("ID와 이메일 정보가 일치하지 않습니다.");
 
-    을 처리해야 함.
-  */
+      return;
+    }
+  }
 
-  alert(
-    "인증번호 발송 요청이 완료되었습니다.\n현재는 백엔드 연결 전이라 실제 문자는 발송되지 않습니다.",
-  );
+  /*
+      백엔드 연결 후:
+      여기에서 ID + 이메일 확인 후
+      이메일 인증번호 발송 API 호출
+    */
 
-  // 새 인증을 시작했으므로 다시 false
-  isPhoneVerified = false;
+  verificationCode.disabled = false;
+
+  verifyCodeButton.disabled = false;
+
+  verificationCode.focus();
+
+  verificationMessage.textContent =
+    "인증번호를 전송했어요. 테스트용 인증번호는 123456입니다.";
+
+  alert("인증번호가 전송되었습니다.\n테스트용 인증번호: 123456");
 });
 
-// ===============================
-// 인증번호 확인
-// ===============================
+/* =========================
+   인증번호 확인
+========================= */
 
 verifyCodeButton.addEventListener("click", function () {
   const code = verificationCode.value.trim();
 
   if (!code) {
-    findPasswordMessage.textContent = "인증번호를 입력해 주세요.";
+    alert("인증번호를 입력해주세요.");
+    return;
+  }
+
+  if (code !== "123456") {
+    isEmailVerified = false;
+
+    verificationMessage.textContent = "인증번호가 일치하지 않습니다.";
+
+    verificationMessage.className = "verification-message error";
 
     return;
   }
 
-  /*
-    나중에는 여기서 인증번호를
-    백엔드로 보내서 실제로 확인해야 함.
-  */
+  isEmailVerified = true;
 
-  findPasswordMessage.textContent = "";
+  verifyCodeButton.textContent = "인증완료";
 
-  alert("현재는 백엔드 연결 전이라 실제 인증번호 확인은 되지 않습니다.");
+  verifyCodeButton.classList.add("active");
 
-  /*
-    백엔드 연결 후 인증 성공했을 때만:
+  verificationCode.disabled = true;
 
-    isPhoneVerified = true;
-  */
+  verificationMessage.textContent = "이메일 인증이 완료되었습니다.";
+
+  verificationMessage.className = "verification-message success";
 });
 
-// ===============================
-// 다음 버튼
-// ===============================
+/* =========================
+   다음
+========================= */
 
 nextButton.addEventListener("click", function () {
-  const userIdValue = userId.value.trim();
+  const idValue = userId.value.trim();
 
-  const phoneValue = normalizePhoneNumber(phone.value.trim());
+  const emailValue = email.value.trim();
 
-  if (!userIdValue) {
-    findPasswordMessage.textContent = "ID를 입력해 주세요.";
-
+  if (!idValue) {
+    alert("ID를 입력해주세요.");
     return;
   }
 
-  if (!phoneValue) {
-    findPasswordMessage.textContent = "휴대폰 번호를 입력해 주세요.";
+  if (!emailValue) {
+    alert("이메일 주소를 입력해주세요.");
+    return;
+  }
 
+  if (!isEmailVerified) {
+    alert("이메일 인증을 완료해주세요.");
     return;
   }
 
   /*
-    ★ 백엔드 연결 후에는 반드시 활성화
+      비밀번호 재설정 대상 저장
+      나중에는 백엔드 토큰으로 대체
+    */
 
-    if (!isPhoneVerified) {
-      findPasswordMessage.textContent =
-        "휴대폰 인증을 완료해 주세요.";
+  sessionStorage.setItem("resetPasswordUserId", idValue);
 
-      return;
-    }
-  */
+  sessionStorage.setItem("resetPasswordEmail", emailValue);
 
-  findPasswordMessage.textContent = "";
-
-  // 다음 페이지에서 사용할 ID 임시 저장
-  sessionStorage.setItem("passwordResetUserId", userIdValue);
-
-  // 새 비밀번호 설정 페이지
-  window.location.href = "13_reset-password.html";
+  location.href = "13_reset-password.html";
 });

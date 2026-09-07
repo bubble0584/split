@@ -393,7 +393,7 @@ function renderParticipantCards() {
         >
           <img
             class="result-person-profile"
-            src="${participant.profileImage || "./image/프로필.svg"}"
+            src="${participant.profileImage || "./image/profile.svg"}"
             alt="${participant.name} 프로필"
           />
 

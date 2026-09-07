@@ -1,11 +1,18 @@
+/* =========================
+   QUICK MAIN
+========================= */
+
 body {
   margin: 0;
 
   background-color: #f5f5f5;
 
-  /* 전체 페이지 스크롤 금지 */
   overflow: hidden;
 }
+
+/* =========================
+   전체 화면
+========================= */
 
 .quick-main-screen {
   position: relative;
@@ -17,9 +24,8 @@ body {
 
   box-sizing: border-box;
 
-  background-color: white;
+  background-color: #ffffff;
 
-  /* 전체 화면은 안 움직임 */
   overflow: hidden;
 }
 
@@ -39,45 +45,53 @@ body {
 
   padding: 0 12px;
 
-  border-bottom: 1px solid #eeeeee;
-
   box-sizing: border-box;
 
-  background-color: white;
+  border-bottom: 1px solid #eeeeee;
+
+  background-color: #ffffff;
 }
+
+/* 제목 */
 
 .quick-main-header h1 {
   margin: 0;
 
   text-align: center;
 
+  color: #111111;
+
   font-size: 15px;
   font-weight: 600;
+
+  white-space: nowrap;
 }
 
 /* =========================
-   뒤로가기 SVG
+   뒤로가기
 ========================= */
 
-.back-button {
-  width: 34px;
-  height: 34px;
+.quick-main-header .back-button {
+  width: 40px;
+  height: 40px;
 
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
 
-  padding: 30 0;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding: 0;
 
   border: none;
+
   background: none;
 
   cursor: pointer;
 }
 
-.back-button img {
-  width: 21px;
-  height: 21px;
+.quick-main-header .back-button img {
+  width: 22px;
+  height: 22px;
 
   display: block;
 
@@ -88,10 +102,13 @@ body {
    수정하기
 ========================= */
 
-.edit-room-button {
+.quick-main-header .edit-room-button {
+  justify-self: end;
+
   padding: 0;
 
   border: none;
+
   background: none;
 
   color: #52aead;
@@ -100,6 +117,8 @@ body {
   font-weight: 600;
 
   cursor: pointer;
+
+  white-space: nowrap;
 }
 
 /* =========================
@@ -110,9 +129,11 @@ body {
   flex-shrink: 0;
 
   margin: 16px;
+
   padding: 16px;
 
   border: 1px solid #dddddd;
+
   border-radius: 10px;
 
   box-sizing: border-box;
@@ -141,6 +162,7 @@ body {
   padding: 7px 0;
 
   border: none;
+
   border-bottom: 1px solid #999999;
 
   outline: none;
@@ -173,9 +195,10 @@ body {
   height: 35px;
 
   border: 1px solid #dddddd;
+
   border-radius: 6px;
 
-  background-color: white;
+  background-color: #ffffff;
 
   font-size: 14px;
 
@@ -190,6 +213,7 @@ body {
   flex: 1;
 
   display: flex;
+
   align-items: center;
 
   border-bottom: 1px solid #999999;
@@ -198,10 +222,10 @@ body {
 .currency-symbol {
   margin-right: 5px;
 
+  color: #333333;
+
   font-size: 14px;
   font-weight: 600;
-
-  color: #333333;
 }
 
 .amount-input-box input {
@@ -253,7 +277,9 @@ body {
   gap: 8px;
 }
 
-/* 참여자 버튼 */
+/* =========================
+   참여자 버튼
+========================= */
 
 .participant-select-button {
   min-width: 52px;
@@ -261,6 +287,7 @@ body {
   padding: 7px 8px;
 
   display: flex;
+
   flex-direction: column;
 
   align-items: center;
@@ -268,9 +295,10 @@ body {
   gap: 5px;
 
   border: 1px solid #dddddd;
+
   border-radius: 8px;
 
-  background-color: white;
+  background-color: #ffffff;
 
   cursor: pointer;
 
@@ -306,6 +334,7 @@ body {
   margin: 18px 0 0 auto;
 
   display: flex;
+
   align-items: center;
 
   gap: 6px;
@@ -313,11 +342,12 @@ body {
   padding: 8px 14px;
 
   border: none;
+
   border-radius: 20px;
 
   background-color: #52aead;
 
-  color: white;
+  color: #ffffff;
 
   font-size: 12px;
   font-weight: 600;
@@ -339,6 +369,7 @@ body {
   min-height: 0;
 
   display: flex;
+
   flex-direction: column;
 
   padding: 0 24px;
@@ -348,7 +379,7 @@ body {
   overflow: hidden;
 }
 
-/* "정산 항목" 제목은 고정 */
+/* 정산 항목 제목 */
 
 .settlement-items-section > h2 {
   flex-shrink: 0;
@@ -360,7 +391,7 @@ body {
 }
 
 /* =========================
-   ★ 정산 내용만 스크롤
+   정산 내용만 스크롤
 ========================= */
 
 #settlementItems {
@@ -397,7 +428,7 @@ body {
 }
 
 /* =========================
-   스와이프 시 뒤에 나오는 버튼 영역
+   스와이프 버튼 영역
 ========================= */
 
 .item-actions {
@@ -419,7 +450,7 @@ body {
 
   border: none;
 
-  color: white;
+  color: #ffffff;
 
   font-size: 12px;
   font-weight: 600;
@@ -445,20 +476,22 @@ body {
 
 .settlement-item-content {
   position: relative;
+
   z-index: 2;
 
   min-height: 58px;
 
   display: flex;
+
   justify-content: space-between;
+
   align-items: center;
 
-  /* ★ 수정/삭제 버튼이랑 너무 붙지 않게 */
-  padding-right: 12px;
+  padding: 12px 12px 12px 0;
 
   box-sizing: border-box;
 
-  background-color: white;
+  background-color: #ffffff;
 
   transition: transform 0.2s ease;
 
@@ -474,10 +507,10 @@ body {
 
   min-width: 0;
 
+  color: #222222;
+
   font-size: 14px;
   font-weight: 500;
-
-  color: #222;
 }
 
 /* =========================
@@ -487,14 +520,13 @@ body {
 .item-right {
   flex-shrink: 0;
 
-  display: grid;
-
-  /* ★ 모든 행의 금액 / 동그라미 위치 고정 */
-  grid-template-columns: 82px 70px;
+  display: flex;
 
   align-items: center;
 
-  column-gap: 10px;
+  justify-content: flex-end;
+
+  gap: 8px;
 }
 
 /* =========================
@@ -503,6 +535,8 @@ body {
 
 .item-amount {
   width: 82px;
+
+  flex-shrink: 0;
 
   text-align: right;
 
@@ -517,13 +551,19 @@ body {
 ========================= */
 
 .item-participants {
-  width: 70px;
+  width: 90px;
 
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  flex-wrap: wrap;
 
-  gap: 4px;
+  justify-content: center;
+
+  align-items: center;
+  align-content: center;
+
+  gap: 5px;
+
+  box-sizing: border-box;
 }
 
 /* 참여자 동그라미 */
@@ -531,11 +571,11 @@ body {
 .item-participant-dot {
   width: 14px;
   height: 14px;
-
   flex-shrink: 0;
 
   border-radius: 50%;
 }
+
 /* =========================
    하단 정산 버튼
 ========================= */
@@ -546,15 +586,18 @@ body {
   position: static;
 
   width: calc(100% - 32px);
+
   height: 46px;
 
   margin: 10px 16px 20px;
 
   border: none;
+
   border-radius: 7px;
 
   background-color: #52aead;
-  color: white;
+
+  color: #ffffff;
 
   font-size: 13px;
   font-weight: 600;
@@ -562,6 +605,10 @@ body {
   cursor: pointer;
 
   box-sizing: border-box;
+}
+
+.settle-button:active {
+  background-color: #459b9a;
 }
 
 /* =========================
@@ -573,8 +620,8 @@ body {
 
   top: 0;
   bottom: 0;
-
   left: 50%;
+
   transform: translateX(-50%);
 
   width: 100%;
@@ -600,9 +647,12 @@ body {
   bottom: 0;
 
   width: 100%;
+
   min-height: 72vh;
 
   padding: 0 16px 30px;
+
+  box-sizing: border-box;
 
   background-color: #ffffff;
 
@@ -619,15 +669,19 @@ body {
   height: 42px;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   touch-action: none;
+
   cursor: grab;
 }
 
 .detail-sheet-handle {
   width: 52px;
+
   height: 4px;
 
   background-color: #d9d9d9;
@@ -654,6 +708,7 @@ body {
 
 .sheet-payer-row {
   display: flex;
+
   align-items: center;
 
   margin: 0 12px 22px;
@@ -710,6 +765,7 @@ body {
   padding: 18px 16px;
 
   border: 1px solid #dddddd;
+
   border-radius: 10px;
 }
 
@@ -722,6 +778,7 @@ body {
 
 .sheet-participant-list {
   display: flex;
+
   flex-direction: column;
 
   gap: 15px;
@@ -729,6 +786,7 @@ body {
 
 .sheet-participant-row {
   display: flex;
+
   align-items: center;
 }
 

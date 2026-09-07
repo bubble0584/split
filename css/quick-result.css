@@ -8,20 +8,18 @@
 
 body {
   margin: 0;
-
   background-color: #f5f5f5;
-
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 .quick-result-screen {
   position: relative;
 
-  min-height: 100vh;
-
-  padding-bottom: 145px;
+  height: 100dvh;
 
   background-color: #ffffff;
+
+  overflow: hidden;
 }
 
 /* =========================
@@ -29,18 +27,25 @@ body {
 ========================= */
 
 .result-header {
+  position: relative;
+
   height: 58px;
 
   display: grid;
-
-  grid-template-columns: 70px 1fr 70px;
+  grid-template-columns: 60px 1fr 60px;
 
   align-items: center;
 
   padding: 0 12px;
 
   border-bottom: 1px solid #eeeeee;
+
+  background-color: #ffffff;
+
+  z-index: 20;
 }
+
+/* 제목 */
 
 .result-header h1 {
   margin: 0;
@@ -51,11 +56,22 @@ body {
 
   font-size: 15px;
   font-weight: 600;
+
+  white-space: nowrap;
 }
 
-.back-button {
+/* =========================
+   뒤로가기 버튼
+========================= */
+
+.result-header .back-button {
   width: 40px;
   height: 40px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: flex-start;
 
   padding: 0;
 
@@ -63,16 +79,27 @@ body {
 
   background: none;
 
-  color: #111111;
-
-  text-align: left;
-
-  font-size: 28px;
-
   cursor: pointer;
 }
 
-.share-button {
+/* 뒤로가기 SVG */
+
+.result-header .back-button img {
+  width: 22px;
+  height: 22px;
+
+  display: block;
+
+  object-fit: contain;
+}
+
+/* =========================
+   공유하기
+========================= */
+
+.result-header .share-button {
+  justify-self: end;
+
   padding: 0;
 
   border: none;
@@ -86,6 +113,10 @@ body {
   font-size: 12px;
   font-weight: 600;
 
+  transform: translateX(-5px);
+
+  white-space: nowrap;
+
   cursor: pointer;
 }
 
@@ -94,13 +125,30 @@ body {
 ========================= */
 
 .result-list {
-  display: flex;
+  position: absolute;
 
+  top: 58px;
+  bottom: 115px;
+  left: 0;
+  right: 0;
+
+  padding: 16px;
+
+  display: flex;
   flex-direction: column;
 
   gap: 12px;
 
-  padding: 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  -webkit-overflow-scrolling: touch;
+
+  scrollbar-width: none;
+}
+
+.result-list::-webkit-scrollbar {
+  display: none;
 }
 
 /* =========================
@@ -108,6 +156,8 @@ body {
 ========================= */
 
 .result-card {
+  flex-shrink: 0;
+
   overflow: hidden;
 
   border: 1px solid #dddddd;
@@ -139,7 +189,6 @@ body {
   display: flex;
 
   align-items: center;
-
   justify-content: space-between;
 
   gap: 12px;
@@ -258,7 +307,6 @@ body {
   display: flex;
 
   align-items: flex-start;
-
   justify-content: space-between;
 
   gap: 12px;
@@ -270,7 +318,6 @@ body {
   min-width: 0;
 
   display: flex;
-
   flex-direction: column;
 
   gap: 3px;
@@ -312,36 +359,20 @@ body {
 }
 
 /* =========================
-   하단 버튼 영역
-========================= */
-
-.result-bottom-actions {
-  position: fixed;
-
-  left: 50%;
-  bottom: 20px;
-
-  width: calc(100% - 32px);
-
-  max-width: 358px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 10px;
-
-  transform: translateX(-50%);
-}
-
-/* =========================
    송금완료 버튼
 ========================= */
 
 .payment-complete-button {
-  width: 100%;
+  position: absolute;
 
+  left: 16px;
+  right: 16px;
+  bottom: 52px;
+
+  width: auto;
   height: 46px;
+
+  padding: 0;
 
   border: none;
 
@@ -351,22 +382,18 @@ body {
 
   color: #ffffff;
 
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
 
   cursor: pointer;
+
+  z-index: 11;
 }
 
 .payment-complete-button:disabled {
   background-color: #cccccc;
 
-  color: #ffffff;
-
   cursor: default;
-}
-
-.payment-complete-button:not(:disabled):active {
-  background-color: #459b9a;
 }
 
 /* =========================
@@ -374,32 +401,46 @@ body {
 ========================= */
 
 .home-button {
-  width: 100%;
+  position: absolute;
 
-  height: 38px;
+  left: 50%;
+  bottom: 20px;
+
+  transform: translateX(-50%);
+
+  padding: 0;
 
   border: none;
 
   background: none;
 
-  color: #777777;
+  color: #666666;
 
   font-size: 12px;
-  font-weight: 500;
+
+  white-space: nowrap;
 
   cursor: pointer;
-}
 
-.home-button:active {
-  color: #333333;
+  z-index: 11;
 }
 
 /* =========================
-   모바일 대응
+   하단 흰색 배경
 ========================= */
 
-@media (max-width: 390px) {
-  .result-bottom-actions {
-    max-width: calc(100% - 32px);
-  }
+.quick-result-screen::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 115px;
+
+  background-color: #ffffff;
+
+  z-index: 10;
 }

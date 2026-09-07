@@ -20,22 +20,20 @@ body {
 ========================= */
 
 .quick-header {
-  position: relative;
-
-  flex-shrink: 0;
-
-  width: 100%;
   height: 58px;
 
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 60px 1fr 60px;
+
   align-items: center;
 
-  padding: 0 16px;
+  padding: 0 12px;
+
+  box-sizing: border-box;
 
   border-bottom: 1px solid #eeeeee;
 
-  box-sizing: border-box;
+  background-color: #ffffff;
 }
 
 /* 제목 */
@@ -43,10 +41,10 @@ body {
 .quick-header h1 {
   margin: 0;
 
+  text-align: center;
+
   font-size: 15px;
   font-weight: 600;
-
-  text-align: center;
 
   white-space: nowrap;
 }
@@ -56,19 +54,13 @@ body {
 ========================= */
 
 .quick-header .back-button {
-  position: absolute;
-
-  left: 16px;
-  top: 50%;
-
-  transform: translateY(-50%);
-
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
 
   display: flex;
-  justify-content: center;
+
   align-items: center;
+  justify-content: flex-start;
 
   padding: 0;
 
@@ -81,8 +73,8 @@ body {
 /* 뒤로가기 SVG */
 
 .quick-header .back-button img {
-  width: 21px;
-  height: 21px;
+  width: 22px;
+  height: 22px;
 
   display: block;
 
@@ -92,12 +84,8 @@ body {
 /* 오른쪽 빈 공간 */
 
 .quick-header .header-space {
-  position: absolute;
-
-  right: 16px;
-
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
 }
 /* =========================
    참여자 입력

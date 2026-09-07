@@ -33,3 +33,73 @@ select {
     "Segoe UI",
     sans-serif;
 }
+
+/* =========================
+   공통 상단 헤더
+========================= */
+
+.common-header {
+  height: 58px;
+
+  display: grid;
+  grid-template-columns: 60px 1fr 60px;
+
+  align-items: center;
+
+  padding: 0 12px;
+
+  box-sizing: border-box;
+
+  border-bottom: 1px solid #eeeeee;
+
+  background-color: #ffffff;
+}
+
+.common-header h1 {
+  margin: 0;
+
+  text-align: center;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+/* =========================
+   공통 뒤로가기 버튼
+========================= */
+
+.common-header .back-button {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding: 0;
+
+  border: none;
+  background: none;
+
+  cursor: pointer;
+}
+
+.common-header .back-button img {
+  width: 22px;
+  height: 22px;
+
+  display: block;
+
+  object-fit: contain;
+}
+
+/* =========================
+   헤더 오른쪽 공간
+========================= */
+
+.common-header .header-space {
+  width: 40px;
+  height: 40px;
+}

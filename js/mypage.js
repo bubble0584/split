@@ -51,21 +51,16 @@ const editPhone = document.getElementById("editPhone");
 const editEmail = document.getElementById("editEmail");
 
 /* =========================
-   임시 기본 데이터
+   기본 프로필
 ========================= */
 
 const defaultProfile = {
   name: "승주",
-
   id: "@songs083",
-
   account: "한국은행 000-000000-00000",
-
   phone: "010-0000-0000",
-
   email: "abcdef@gmail.com",
-
-  image: "image/프로필.svg",
+  image: "image/profile.svg",
 };
 
 /* =========================
@@ -73,7 +68,13 @@ const defaultProfile = {
 ========================= */
 
 function getProfile() {
-  const saved = JSON.parse(localStorage.getItem("userProfile"));
+  let saved = null;
+
+  try {
+    saved = JSON.parse(localStorage.getItem("userProfile"));
+  } catch (error) {
+    console.error("프로필 데이터 오류:", error);
+  }
 
   if (!saved) {
     return {
@@ -84,6 +85,11 @@ function getProfile() {
   return {
     ...defaultProfile,
     ...saved,
+
+    image:
+      saved.image && saved.image !== "image/프로필.svg"
+        ? saved.image
+        : "image/profile.svg",
   };
 }
 
@@ -92,161 +98,206 @@ function getProfile() {
 ========================= */
 
 function saveProfile(profile) {
-  localStorage.setItem(
-    "userProfile",
-
-    JSON.stringify(profile),
-  );
+  localStorage.setItem("userProfile", JSON.stringify(profile));
 }
 
 /* =========================
-   화면 출력
+   프로필 화면 출력
 ========================= */
 
 function renderProfile() {
   const profile = getProfile();
 
-  profileName.textContent = profile.name;
+  if (profileName) {
+    profileName.textContent = profile.name;
+  }
 
-  profileId.textContent = profile.id;
+  if (profileId) {
+    profileId.textContent = profile.id;
+  }
 
-  profileAccount.textContent = profile.account;
+  if (profileAccount) {
+    profileAccount.textContent = profile.account;
+  }
 
-  profilePhone.textContent = profile.phone;
+  if (profilePhone) {
+    profilePhone.textContent = profile.phone || "";
+  }
 
-  profileEmail.textContent = profile.email;
+  if (profileEmail) {
+    profileEmail.textContent = profile.email;
+  }
 
-  profileImage.src = profile.image || "image/프로필.svg";
+  if (profileImage) {
+    profileImage.src = profile.image || "image/profile.svg";
+  }
 }
 
 /* =========================
-   수정 화면 값 채우기
+   수정 폼 채우기
 ========================= */
 
 function fillEditForm() {
   const profile = getProfile();
 
-  editName.value = profile.name;
+  if (editName) {
+    editName.value = profile.name;
+  }
 
-  editAccount.value = profile.account;
+  if (editAccount) {
+    editAccount.value = profile.account;
+  }
 
-  editPhone.value = profile.phone;
+  if (editPhone) {
+    editPhone.value = profile.phone || "";
+  }
 
-  editEmail.value = profile.email;
+  if (editEmail) {
+    editEmail.value = profile.email;
+  }
 
-  editProfileImage.src = profile.image || "image/프로필.svg";
+  if (editProfileImage) {
+    editProfileImage.src = profile.image || "image/profile.svg";
+  }
 }
-
-/* =========================
-   수정 화면 열기
-========================= */
-
-profileEditButton.addEventListener("click", function () {
-  fillEditForm();
-
-  mypageView.classList.add("hidden");
-
-  profileEditView.classList.remove("hidden");
-});
-
-/* =========================
-   수정 화면 뒤로가기
-========================= */
-
-editBackButton.addEventListener("click", function () {
-  profileEditView.classList.add("hidden");
-
-  mypageView.classList.remove("hidden");
-});
 
 /* =========================
    마이페이지 뒤로가기
 ========================= */
 
-backButton.addEventListener("click", function () {
-  location.href = "05_home.html";
-});
+if (backButton) {
+  backButton.addEventListener("click", function () {
+    window.location.href = "05_home.html";
+  });
+}
 
 /* =========================
-   프로필 사진 선택
+   프로필 수정 화면 열기
 ========================= */
 
-editProfileImageButton.addEventListener("click", function () {
-  profileImageInput.click();
-});
+if (profileEditButton) {
+  profileEditButton.addEventListener("click", function () {
+    fillEditForm();
+
+    if (mypageView) {
+      mypageView.classList.add("hidden");
+    }
+
+    if (profileEditView) {
+      profileEditView.classList.remove("hidden");
+    }
+  });
+}
+
+/* =========================
+   수정 화면 뒤로가기
+========================= */
+
+if (editBackButton) {
+  editBackButton.addEventListener("click", function () {
+    if (profileEditView) {
+      profileEditView.classList.add("hidden");
+    }
+
+    if (mypageView) {
+      mypageView.classList.remove("hidden");
+    }
+  });
+}
+
+/* =========================
+   사진 선택
+========================= */
+
+if (editProfileImageButton && profileImageInput) {
+  editProfileImageButton.addEventListener("click", function () {
+    profileImageInput.click();
+  });
+}
 
 /* =========================
    사진 미리보기
 ========================= */
 
-profileImageInput.addEventListener("change", function () {
-  const file = profileImageInput.files[0];
+if (profileImageInput) {
+  profileImageInput.addEventListener("change", function () {
+    const file = profileImageInput.files[0];
 
-  if (!file) {
-    return;
-  }
+    if (!file) {
+      return;
+    }
 
-  const reader = new FileReader();
+    const reader = new FileReader();
 
-  reader.onload = function (event) {
-    editProfileImage.src = event.target.result;
-  };
+    reader.onload = function (event) {
+      if (editProfileImage) {
+        editProfileImage.src = event.target.result;
+      }
+    };
 
-  reader.readAsDataURL(file);
-});
+    reader.readAsDataURL(file);
+  });
+}
 
 /* =========================
-   수정 완료
+   프로필 수정 완료
 ========================= */
 
-profileSaveButton.addEventListener("click", function () {
-  const name = editName.value.trim();
+if (profileSaveButton) {
+  profileSaveButton.addEventListener("click", function () {
+    const currentProfile = getProfile();
 
-  const account = editAccount.value.trim();
+    const name = editName ? editName.value.trim() : currentProfile.name;
 
-  const phone = editPhone.value.trim();
+    const account = editAccount
+      ? editAccount.value.trim()
+      : currentProfile.account;
 
-  const email = editEmail.value.trim();
+    const phone = editPhone ? editPhone.value.trim() : currentProfile.phone;
 
-  if (!name) {
-    alert("이름을 입력해주세요.");
+    const email = editEmail ? editEmail.value.trim() : currentProfile.email;
 
-    return;
-  }
+    if (!name) {
+      alert("이름을 입력해주세요.");
 
-  const currentProfile = getProfile();
+      return;
+    }
 
-  const updatedProfile = {
-    ...currentProfile,
+    const updatedProfile = {
+      ...currentProfile,
 
-    name: name,
+      name: name,
 
-    account: account,
+      account: account,
 
-    phone: phone,
+      phone: phone,
 
-    email: email,
+      email: email,
 
-    image: editProfileImage.src,
-  };
+      image: editProfileImage ? editProfileImage.src : currentProfile.image,
+    };
 
-  saveProfile(updatedProfile);
+    saveProfile(updatedProfile);
 
-  /*
-      Together 결과 페이지에서
-      계좌 정보 읽는 코드와도 연결
-    */
+    /* 계좌 정보 */
 
-  localStorage.setItem("bankName", account.split(" ")[0] || "");
+    const accountParts = account.split(" ");
 
-  localStorage.setItem("accountNumber", account.split(" ").slice(1).join(" "));
+    localStorage.setItem("bankName", accountParts[0] || "");
 
-  renderProfile();
+    localStorage.setItem("accountNumber", accountParts.slice(1).join(" "));
 
-  profileEditView.classList.add("hidden");
+    renderProfile();
 
-  mypageView.classList.remove("hidden");
-});
+    if (profileEditView) {
+      profileEditView.classList.add("hidden");
+    }
+
+    if (mypageView) {
+      mypageView.classList.remove("hidden");
+    }
+  });
+}
 
 /* =========================
    최초 실행

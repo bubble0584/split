@@ -1,60 +1,53 @@
-const phone = document.getElementById("phone");
+/* =========================
+   ID 찾기
+========================= */
+
+const email = document.getElementById("email");
+
 const verificationCode = document.getElementById("verificationCode");
 
 const sendCodeButton = document.getElementById("sendCodeButton");
+
 const verifyCodeButton = document.getElementById("verifyCodeButton");
+
 const findIdButton = document.getElementById("findIdButton");
 
-const findIdMessage = document.getElementById("findIdMessage");
+let isEmailVerified = false;
 
-let isPhoneVerified = false;
-
-// 휴대폰 번호에서 하이픈 제거
-function getCleanPhoneNumber() {
-  return phone.value.trim().replace(/-/g, "");
-}
-
-// ===============================
-// 인증번호 발송
-// ===============================
+/* =========================
+   이메일 인증번호 발송
+========================= */
 
 sendCodeButton.addEventListener("click", function () {
-  const phoneNumber = getCleanPhoneNumber();
+  const emailValue = email.value.trim();
 
-  if (!phoneNumber) {
-    alert("휴대폰 번호를 입력해주세요.");
+  if (!emailValue) {
+    alert("이메일 주소를 입력해주세요.");
     return;
   }
 
-  const phoneRegex = /^01[0-9][0-9]{7,8}$/;
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!phoneRegex.test(phoneNumber)) {
-    alert("올바른 휴대폰 번호를 입력해주세요.");
+  if (!emailPattern.test(emailValue)) {
+    alert("올바른 이메일 주소를 입력해주세요.");
     return;
   }
 
   /*
-    나중에 백엔드 연결
+    백엔드 연결 전 임시 처리
 
-    fetch("백엔드주소/api/send-code/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        phone: phoneNumber,
-      }),
-    });
+    나중에는 여기에서
+    이메일 인증번호 발송 API 호출
   */
 
-  alert("인증번호 발송 요청이 완료되었습니다.");
+  alert("인증번호가 이메일로 전송되었습니다.");
 
-  isPhoneVerified = false;
+  verificationCode.focus();
 });
 
-// ===============================
-// 인증번호 확인
-// ===============================
+/* =========================
+   인증번호 확인
+========================= */
 
 verifyCodeButton.addEventListener("click", function () {
   const code = verificationCode.value.trim();
@@ -65,53 +58,40 @@ verifyCodeButton.addEventListener("click", function () {
   }
 
   /*
-    실제로는 백엔드에서 인증번호 확인
+    백엔드 연결 전 임시 처리
 
-    인증 성공 시:
-    isPhoneVerified = true;
+    현재는 아무 번호나 입력하면
+    인증 성공으로 처리
   */
 
-  alert("현재는 백엔드 연결 전이라 실제 인증 확인은 되지 않습니다.");
+  isEmailVerified = true;
+
+  verifyCodeButton.textContent = "인증완료";
+
+  alert("이메일 인증이 완료되었습니다.");
 });
 
-// ===============================
-// ID 찾기
-// ===============================
+/* =========================
+   ID 찾기
+========================= */
 
 findIdButton.addEventListener("click", function () {
-  findIdMessage.textContent = "";
-
-  const phoneNumber = getCleanPhoneNumber();
-
-  if (!phoneNumber) {
-    findIdMessage.textContent = "휴대폰 번호를 입력해주세요.";
+  if (!email.value.trim()) {
+    alert("이메일 주소를 입력해주세요.");
     return;
   }
 
-  const phoneRegex = /^01[0-9][0-9]{7,8}$/;
-
-  if (!phoneRegex.test(phoneNumber)) {
-    findIdMessage.textContent = "올바른 휴대폰 번호를 입력해주세요.";
-    return;
-  }
-
-  if (!verificationCode.value.trim()) {
-    findIdMessage.textContent = "인증번호를 입력해주세요.";
+  if (!isEmailVerified) {
+    alert("이메일 인증을 완료해주세요.");
     return;
   }
 
   /*
-    백엔드 연결 후 사용
+    백엔드 연결 후에는
 
-    if (!isPhoneVerified) {
-      findIdMessage.textContent =
-        "휴대폰 인증을 완료해주세요.";
-      return;
-    }
-
-    이후 백엔드에서
-    해당 전화번호로 가입된 ID를 받아서 표시
+    입력한 이메일을 기준으로
+    해당 사용자의 ID를 받아오면 됨.
   */
 
-  alert("현재는 백엔드 연결 전이라 ID 조회는 되지 않습니다.");
+  alert("회원님의 ID는 song050 입니다.");
 });

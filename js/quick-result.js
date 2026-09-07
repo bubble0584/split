@@ -590,7 +590,7 @@ backButton.addEventListener("click", function () {
 ========================= */
 
 shareButton.addEventListener("click", function () {
-  alert("공유 기능은 백엔드 연결 후 추가할 예정입니다.");
+  alert("공유 기능해죠잉");
 });
 
 /* =========================
